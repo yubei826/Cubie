@@ -4,11 +4,11 @@
 
 Cubie，[kjuːbiə]，组件化构建平台，是一个基于模版、组件以及插件机制的拖拽式创作平台，是一套可见即可得的页面制作工具。
 系统主要基于以下框架等构建，感谢开源~
-* jQuery2.0.3   [http://jquery.com/](http://jquery.com/)
+* jQuery2.0.3   [http://jquery.com/](http://jquery.com)
 * Bootstrap 2.3.2   [http://getbootstrap.com/2.3.2/index.html](http://getbootstrap.com/2.3.2/index.html)
-* ThinkPHP 3.1   [http://www.thinkphp.cn/](http://www.thinkphp.cn/)
+* ThinkPHP 3.1   [http://www.thinkphp.cn/](http://www.thinkphp.cn)
 * ckeditor   [https://github.com/galetahub/ckeditor](https://github.com/galetahub/ckeditor)
-* CodeMirror   [https://github.com/marijnh/CodeMirror/](https://github.com/marijnh/CodeMirror/)
+* CodeMirror   [https://github.com/marijnh/CodeMirror/](https://github.com/marijnh/CodeMirror)
 * ...
 
 
