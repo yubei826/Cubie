@@ -1,7 +1,7 @@
 # Cubie,组件化构建平台 Beta 
 
 
-[http://zawaliang.github.io/Cubie/](Cubie)，[kjuːbiə]，组件化构建平台，是一个基于模版、组件以及插件机制的拖拽式创作平台，是一套可见即可得的页面制作工具。
+[Cubie](http://zawaliang.github.io/Cubie/)，[kjuːbiə]，组件化构建平台，是一个基于模版、组件以及插件机制的拖拽式创作平台，是一套可见即可得的页面制作工具。
  
 详细使用说明见：[http://www.zawaliang.com/2013/10/454.html](http://www.zawaliang.com/2013/10/454.html)  
 
