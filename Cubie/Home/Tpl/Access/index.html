@@ -1,0 +1,125 @@
+<include file="Public:header" />
+
+<script>
+function lock(id) {
+	$.showConfirm('锁定后将限制此用户登录，确定要执行此操作?', function() {
+		window.location.href = '/index.php/Access/lock/id/' + id;
+	});
+}
+function setSuper(id, name) {
+	$.showConfirm('确定要将' + name + '设为超级管理员?', function() {
+		window.location.href = '/index.php/Access/super/id/' + id;
+	});
+}
+function unsuper(id, name) {
+	$.showConfirm( '确定要取消' + name + '的超级管理员身份?', function() {
+		window.location.href = '/index.php/Access/unsuper/id/' + id;
+	});
+}
+function delUser(id, name) {
+	$.showConfirm('确定删除用户：”' + name + '“？',  function() {
+		window.location.href = '/index.php/Access/del/id/' + id;
+	});
+}
+</script>
+
+<div class="container">
+	<div class="row">
+		<div class="span4">
+			{:show_breadcrumb()}
+		</div>
+		<div class="span8 text-right">
+			<form id="frm" name="frm" method="get" action="/index.php/Access/" autocomplete="off" class="form-search">
+				<input id="kw" name="kw" type="text" class="input-medium search-query" placeholder="用户名" value="{$kw}" />
+				<button type="submit" class="btn">查 询</button>
+			</form>
+		</div>
+	</div>
+
+	 <div class="row">
+		<table class="table">
+			<thead>
+			<tr>
+				<th>用户名</th>
+				<th>角色</th>
+				<th>上次登录时间</th>
+				<th>上次登录IP</th>
+				<th>登录次数</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			
+			<if condition="$count gt 0">
+			
+			<tbody>
+			
+			<foreach name="user" item="vo">
+			<tr>
+				<td><a href="http://km.oa.com/user/{$vo.account}" target="_blank" title="{$vo.account}的KM">{$vo.account}</a>{$vo.user_type}</td>
+				<td style="width:130px;word-wrap:break-word; word-break:break-all;">{$vo.role_name}</td>
+				<td>{$vo.last_login_time}</td>
+				<td>{$vo.last_login_ip}</td>
+				<td>{$vo.login_count}</td>
+				<td>{$vo.lock_status}</td>
+				<td>
+					<div class="btn-group">
+
+					<if condition="hasAccess('Access', 'edit')">
+					<a href="/index.php/Access/edit/id/{$vo.id}" class="btn">编辑</a>
+					</if>
+
+					<eq name="vo.status" value="0">
+						<if condition="hasAccess('Access', 'unlock')">
+						<a href="/index.php/Access/unlock/id/{$vo.id}" class="btn">解锁</a>
+						</if>
+					<else />
+						<if condition="hasAccess('Access', 'lock')">
+						<a href="javascript:lock({$vo.id});" class="btn">锁定</a>
+						</if>
+					</eq>
+					
+					<eq name="vo.type_id" value="0">
+						<if condition="hasAccess('Access', 'super')">
+						<a href="javascript:setSuper({$vo.id}, '{$vo.account}');" class="btn">设为超级管理员</a>
+						</if>
+					<else />
+						<if condition="hasAccess('Access', 'unsuper')">
+						<a href="javascript:unsuper({$vo.id}, '{$vo.account}');" class="btn">取消超级管理员身份</a>
+						</if>
+					</eq>
+
+					<if condition="hasAccess('Access', 'del')">
+					<a href="javascript:delUser({$vo.id}, '{$vo.account}');" class="btn">删除</a>
+					</if>
+					</div>
+				</td>
+			</tr>
+			</foreach>	
+			
+			</tbody>
+			<tfoot>	
+			<tr>
+				<td colspan="7">
+					<div class="page">
+						{$page}
+					</div>
+				</td>
+			</tr>
+			</tfoot>	
+			
+			<else />
+			
+			<tr>
+				<td colspan="9">
+					<div class="alert text-center">暂无用户</div>
+				</td>
+			</tr>
+			
+			</if>
+		</table>
+	</div>
+</div>
+
+
+<include file="Public:footer" />

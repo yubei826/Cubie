@@ -1,0 +1,89 @@
+
+.cubie {
+	margin: 0;
+	padding: 0;
+	font: 12px/1.67 "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #333;
+}
+
+/* 限定在.cubie内的样式 */
+.cubie {
+
+	::-webkit-scrollbar {width: 6px; height: 6px; overflow: visible;}
+	::-webkit-scrollbar-thumb {background-clip: padding-box; background-color: rgba(0,0,0,.5); border-radius: 6px; border-width: 1px 1px 1px 6px; min-height: 18px;}
+	::-webkit-scrollbar-button {height: 0; width: 0;}
+	::-webkit-scrollbar-track {background-clip: padding-box; border:solid transparent; border-width:0 0 0 4px;}
+	::-webkit-scrollbar-corner {background:transparent;}
+
+	
+	/* 防止元素样式被项目样式重置 */
+	div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+		margin: 0;
+		padding: 0;
+		font: 12px/1.67 "Helvetica Neue", Helvetica, Arial, sans-serif;
+	}
+
+	/* jQuery Validation Plugin  */
+	.error {
+		color: #FF6600;
+		padding: 0 5px;
+	}
+
+	
+
+	.close {
+		float: right;
+		font-size: 20px;
+		font-weight: bold;
+		line-height: 20px;
+		color: #000000;
+		text-shadow: 0 1px 0 #ffffff;
+		opacity: 0.2;
+		filter: alpha(opacity=20);
+	}
+
+	.close:hover,
+	.close:focus {
+		color: #000000;
+		text-decoration: none;
+		cursor: pointer;
+		opacity: 0.4;
+		filter: alpha(opacity=40);
+	}
+
+	button.close {
+		padding: 0;
+		cursor: pointer;
+		background: transparent;
+		border: 0;
+		-webkit-appearance: none;
+	}
+
+
+	.thumbnails {
+		margin-left: -20px;
+		list-style: none;
+		*zoom: 1;
+	}
+
+	.thumbnails:before,
+	.thumbnails:after {
+		display: table;
+		line-height: 0;
+		content: "";
+	}
+
+	.thumbnails:after {
+		clear: both;
+	}
+
+	.row-fluid .thumbnails {
+		margin-left: 0;
+	}
+
+	.thumbnails > li {
+		float: left;
+		margin-bottom: 20px;
+		margin-left: 20px;
+	}
+}

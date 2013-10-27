@@ -1,0 +1,171 @@
+<include file="Public:header" />
+
+<include file="Public:js_validate" />
+<script>
+// 发布接口设置
+function setPubApi(obj) {
+	obj = $(obj);
+	var wrapper = $('#pub_auditor_wrapper');
+	if ($(obj).val() == '') {
+		$('#url_suffix_w').removeClass('input-prepend');
+		$('#url_suffix').addClass('hide');
+		$('#url').removeClass('span2').addClass('span4');
+		wrapper.hide();
+	} else {
+		var op = obj.find('option:selected');
+		$('#url_suffix_w').addClass('input-prepend');
+		$('#url_suffix').removeClass('hide')
+			.html(op.attr('data-url'));
+		$('#url').removeClass('span4').addClass('span2');
+		wrapper.show();
+	}
+}
+
+$(function() {
+
+	$.validator.addMethod('checkName', function(value, element) {
+		value = $.trim(value);
+		return /^[A-Za-z]+[A-Za-z0-9_]*$/i.test(value);
+	}, '格式有误，请以字母开头，只允许字母、数字以及下划线');
+
+	$.validator.addMethod('checkUrl', function(value, element) {
+		value = $.trim(value);
+		var pubApi = $('#pub_api').val();
+		var reg = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+
+		var result = true;
+		if (!pubApi) { // pubapi不存在时才校验完整的URL格式
+			result = reg.test(value);
+		}
+		
+		// URL要以/结尾
+		if (value.substr(value.length-1, 1) != '/') {
+			result = false;
+		}
+		return result;
+	}, 'URL格式有误（需以斜杠"/"结尾）');
+
+	$.validator.addMethod('checkPubAuditor', function(value, element) {
+		value = $.trim(value);
+		var pubApi = $('#pub_api').val();
+		if (pubApi && !value) {
+			return false;
+		}
+		return true;
+	}, '请输入发布审批人');
+
+	var validator = $('#frm').validate({
+		errorElement: 'span',
+		errorPlacement: function(error, element) {
+			if (element.attr('name') == 'url') {
+				error.insertAfter(element.parent());
+			} else {
+				error.insertAfter(element);
+			}
+		},
+		rules: {
+			title: {
+				required: true,
+				checkName: true
+			},
+			intro: {
+				required: true
+			},
+			url: {
+				required: true,
+				checkUrl: true
+			},
+			auditor: {
+				required: true
+			},
+			pub_auditor: {
+				checkPubAuditor: true
+			}
+		},
+		messages: {
+			title: {
+				required: '请输入分类名称'
+			},
+			intro: {
+				required: '请输入分类描述'
+			},
+			url: {
+				required: '请输入分类URL'
+			},
+			auditor: {
+				required: '请输入编辑审批人'
+			}
+		}
+	});
+
+	// 初始化发布接口
+	if ($('#pub_api').val() != '') {
+		$('#pub_api').change();
+	}
+});
+</script>
+
+<div class="container">
+	<div class="row">
+		<if condition="$Think.const.ACTION_NAME eq 'addCategory'">
+		{:show_breadcrumb()}
+		<else />
+		{:show_breadcrumb('编辑分类')}
+		</if>
+
+		<form id="frm" name="frm" method="post" action="/index.php/Project/{$Think.const.ACTION_NAME}" autocomplete="off" class="form-horizontal">
+			<input type="hidden" name="id" value="{$category.id}" />
+			<div class="control-group">
+				<label class="control-label" for="title">分类名称：</label>
+				<div class="controls">
+					<input id="title" name="title" type="text" placeholder="1-20个字符（字母、数字、下划线）" class="span4" value="{$category.title}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="intro">分类描述：</label>
+				<div class="controls">
+					<textarea id="intro" name="intro" placeholder="1-20个字符" class="span4" rows="4">{$category.intro}</textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="pub_api">发布接口：</label>
+				<div class="controls">
+					<select id="pub_api" name="pub_api" onchange="setPubApi(this)">
+						<option value="">——无——</option>
+						<foreach name="pub_api" item="vo">
+							<option value="{$key}" data-url="{$vo.url}" <eq name="key" value="$category.pub_api">selected="selected"</eq>>{$vo.name}</option>
+						</foreach>
+					</select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="url">分类URL：</label>
+				<div class="controls">
+					<div id="url_suffix_w">
+						<span class="add-on" id="url_suffix"></span>
+						<input id="url" name="url" type="text" placeholder="以斜杠'/'结尾" class="span4" value="{$category.url}" />
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="auditor">编辑审批人：</label>
+				<div class="controls">
+					<input id="auditor" name="auditor" type="text" placeholder="以分号分割，最多允许3个" class="span4" value="{$category.auditor}" />
+				</div>
+			</div>
+			<div id="pub_auditor_wrapper" class="control-group hide">
+				<label class="control-label" for="pub_auditor">发布审批人：</label>
+				<div class="controls">
+					<input id="pub_auditor" name="pub_auditor" type="text" placeholder="以分号分割，最多允许3个" class="span4" value="{$category.pub_auditor}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary"><if condition="$Think.const.ACTION_NAME eq 'addCategory'">新 建<else />更 新</if></button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<include file="Public:footer" />

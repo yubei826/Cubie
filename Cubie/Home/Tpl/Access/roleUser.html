@@ -1,0 +1,63 @@
+<include file="Public:header" />
+
+<script>
+function selAll(obj) {
+	var status = !!obj.checked;
+	$('.js-cbx-uid').each(function() {
+		$(this).prop('checked', status);
+	});
+}
+
+function syncCbx() {
+	var count = $('.js-cbx-uid').length,
+		checkedLen = $('.js-cbx-uid:checked').length;
+	$('#cbx_all').prop('checked', checkedLen == count);
+}
+
+$(function() {
+	syncCbx();
+});
+
+</script>
+		
+<div class="container">
+	<div class="row">
+		<div class="span4">
+		{:show_breadcrumb('角色用户')}
+		</div>
+		
+	</div>
+
+	<div class="row">
+		<h4>{$role_name} > 用户列表</h4>
+		<form id="frm" name="frm" method="post" action="/index.php/Access/addRoleUser" autocomplete="off">
+			<input type="hidden" name="role_id" value="{$role_id}" />
+			<input type="hidden" name="original_user_id" value="{$original_user_id}" />
+			<table cellspacing="0" cellpadding="0" class="table">
+				<thead>
+				<tr>
+					<th><input id="cbx_all" type="checkbox" onclick="selAll(this);"  /></th>
+					<th>索引</th>
+					<th>用户名</th>
+					<th>用户类型</th>
+					<th>状态</th>
+				</tr>
+				</thead>
+				<tbody>
+				<foreach name="user" item="vo">
+				<tr>
+					<td><input type="checkbox" name="user_id[]" class="checkbox js-cbx-uid" value="{$vo.id}" <eq name="vo.checked" value="true">checked="checked"</eq> onclick="syncCbx();" /></td>
+					<td>{$vo.id}</td>
+					<td>{$vo.account}</td>
+					<td>{$vo.user_type}</td>
+					<td>{$vo.lock_status}</td>
+				</tr>
+				</foreach>	
+				</tbody>
+			</table>
+			<button type="submit" class="btn btn-primary">保 存</button>
+		</form>
+	</div>
+</div>
+
+<include file="Public:footer" />

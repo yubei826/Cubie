@@ -1,0 +1,101 @@
+<!-- 
+
+系统基础特性列表
+1) data-featureid 特性ID
+2) data-property 特性属性,逗号分隔; required:每个组件必须有的特性
+3) 特性不可以ID命名,系统特性以js-sys-feature-xx命名,自定义特性以js-feature-xxx命名
+
+-->
+
+<fieldset class="js-cubie-feature" data-featureid="base" data-property="required" style="display:none;">
+	<legend>基础</legend>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">宽度</span>
+		<input name="width" type="number" class="input-mini js-sys-feature-width" autocomplete="off" />
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">高度</span>
+		<input name="height" type="number" class="input-mini js-sys-feature-height" autocomplete="off" />
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">X</span>
+		<input name="left" type="number" class="input-mini js-sys-feature-left" autocomplete="off" />
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">Y</span>
+		<input name="top" type="number" class="input-mini js-sys-feature-top" autocomplete="off" />
+	</div>
+</fieldset>
+<fieldset class="js-cubie-feature" data-featureid="global" style="display:none;">
+	<legend>全局设置</legend>
+	<select name="font-family" class="cubie-field js-sys-feature-font-family">
+		<option value="">系统默认</option>
+		<option value="SimSun">宋体</option>
+		<option value="'Microsoft YaHei', SimHei">微软雅黑</option>
+	</select>
+	<div class="input-prepend input-append cubie-field">
+		<span class="add-on">字体大小</span>
+		<input name="font-size" type="number" class="input-mini js-sys-feature-font-size" autocomplete="off" />
+		<span class="add-on">PX</span>
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">行高</span>
+		<input name="line-height" type="text" class="input-mini js-sys-feature-line-height" autocomplete="off" />
+	</div>
+	<hr />
+	<div class="input-prepend cubie-field">
+		<span class="add-on">字体颜色</span>
+		<input name="color" type="text" class="input-mini js-sys-feature-color" autocomplete="off" />
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">背景色</span>
+		<input name="background-color" type="text" class="input-mini js-sys-feature-background-color" autocomplete="off" />
+	</div>
+	<div class="btn-group cubie-field">
+		<button type="button" class="btn js-sys-feature-strong" title="粗体"><strong>B</strong></button>
+		<button type="button" class="btn js-sys-feature-em" title="斜体"><em>I</em></button>
+	</div>
+	<div class="btn-group cubie-field">
+		<button type="button" class="btn js-sys-feature-text-align js-sys-feature-text-left" title="居左"><i class="icon-align-left"></i></button>
+		<button type="button" class="btn js-sys-feature-text-align js-sys-feature-text-center" title="居中"><i class="icon-align-center"></i></button>
+		<button type="button" class="btn js-sys-feature-text-align js-sys-feature-text-right" title="居右"><i class="icon-align-right"></i></button>
+	</div>
+</fieldset>
+<fieldset class="js-cubie-feature" data-featureid="padding" style="display:none;">
+	<legend>内边距[Padding] (PX)</legend>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">上</span>
+		<input name="padding-top" type="number" class="input-mini js-sys-feature-padding-top" autocomplete="off" />
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">右</span>
+		<input name="padding-right" type="number" class="input-mini js-sys-feature-padding-right" autocomplete="off" />
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">下</span>
+		<input name="padding-bottom" type="number" class="input-mini js-sys-feature-padding-bottom" autocomplete="off" />
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">左</span>
+		<input name="padding-left" type="number" class="input-mini js-sys-feature-padding-left" autocomplete="off" />
+	</div>
+</fieldset>
+<fieldset class="js-cubie-feature" data-featureid="margin" style="display:none;">
+	<legend>外边距[Margin] (PX)</legend>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">上</span>
+		<input name="margin-top" type="number" class="input-mini js-sys-feature-margin-top" autocomplete="off" />
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">右</span>
+		<input name="margin-right" type="number" class="input-mini js-sys-feature-margin-right" autocomplete="off" />
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">下</span>
+		<input name="margin-bottom" type="number" class="input-mini js-sys-feature-margin-bottom" autocomplete="off" />
+	</div>
+	<div class="input-prepend cubie-field">
+		<span class="add-on">左</span>
+		<input name="margin-left" type="number" class="input-mini js-sys-feature-margin-left" autocomplete="off" />
+	</div>
+</fieldset>

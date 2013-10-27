@@ -1,0 +1,86 @@
+<include file="Public:header" />
+
+<div class="container">
+	<div class="row">
+		{:show_breadcrumb('查看项目信息')}
+	</div>
+
+	<div id="form_wrapper" class="row <if condition="$Think.const.ACTION_NAME eq 'add'">hide</if>">
+		<form id="frm" name="frm" method="post" action="#" autocomplete="off" class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label" for="name">项目模板：</label>
+				<div class="controls">
+					<span id="tpl_name"><a href="/index.php/Build/preview/id/{$project.tpl_id}">{$project._tpl_title}</a></span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="name">项目名称：</label>
+				<div class="controls">
+					<input id="name" name="name" type="text" placeholder="1-20个字符" class="span6" readonly value="{$project.title}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="intro">项目描述：</label>
+				<div class="controls">
+					<textarea id="intro" name="intro" placeholder="1-255个字符" rows="4" class="span6" readonly>{$project.intro}</textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="category_id">项目分类：</label>
+				<div class="controls">
+					<select id="category_id" name="category_id" disabled>
+						<option>{$category.intro}({$category.title})</option>
+					</select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="flag">项目路径：</label>
+				<div class="controls">
+					<input id="flag" name="flag" type="text" placeholder="1-20个字符" class="span6" value="{$project._url}{$project.flag}" readonly />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="start_time_date">开始时间：</label>
+				<div class="controls">
+					<input type="text" class="span3" readonly value="{$project.start_time}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="start_time_date">结束时间：</label>
+				<div class="controls">
+					<input type="text" class="span3" readonly value="{$project.end_time}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="start_time_date">最近更新人：</label>
+				<div class="controls">
+					<input type="text" class="span3" readonly value="{$project.update_user}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="start_time_date">更新时间：</label>
+				<div class="controls">
+					<input type="text" class="span3" readonly value="{$project.update_time}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="start_time_date">创建时间：</label>
+				<div class="controls">
+					<input type="text" class="span3" readonly value="{$project.create_time}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="tpl_thumbnail">缩略图：</label>
+				<div class="controls">
+					<if condition="!empty($project['_thumbnail'])">
+					<img src="{$project._thumbnail}" class="img-polaroid" style="max-width:500px;" />
+					<else />
+					无
+					</if>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<include file="Public:footer" />

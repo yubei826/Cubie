@@ -1,0 +1,28 @@
+<include file="Public:header" />
+
+<div class="container">
+	<div class="row">
+		<ul class="breadcrumb">
+		  <li><a href="#">Home</a> <span class="divider">/</span></li>
+		  <li class="active">系统维护</li>
+		</ul>
+	</div>
+
+	<div class="row">
+		<form name="frm" method="post" action="/index.php/Public/maintain" class="form-horizontal">
+			<div class="controls">
+				<label class="checkbox">
+					<input name="maintain" type="checkbox" value="1" <eq name="maintain" value="1">checked="checked"</eq>>
+					开启系统维护
+				</label>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary">确 定</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+	
+<include file="Public:footer" />

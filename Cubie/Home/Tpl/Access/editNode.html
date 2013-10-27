@@ -1,0 +1,209 @@
+<include file="Public:header" />
+
+<include file="Public:js_validate" />
+<script>
+// 父级节点切换
+function setPID(type) {
+	var pidNode = $('#pid'),
+		levelNode = $('#level'),
+		curPidNode = $('#pid_' + type),
+		selected = curPidNode.val(),
+		target,
+		v = selected,
+		level = 1;
+
+	var show = function(target) {
+		var opts = target.children(),
+			pid;
+		
+		$.each(opts, function(k, v) {
+			pid = $(v).attr('data-pid');
+			if (pid == selected || pid == '') {
+				$(v).show();
+			} else {
+				$(v).hide();
+			}
+		});
+		target.show();
+	};
+	
+	switch (type) {
+		case 1:
+			target = $('#pid_2');
+			if (selected == '') {
+				level = 1;
+				target.hide();
+				$('#pid_3').hide();
+			} else {
+				level = 2;
+				show(target);
+				target.change();
+			}
+			break; 
+		case 2:
+			target = $('#pid_3');
+			if (selected == '') {
+				v = $('#pid_1').val();
+				level = 2;
+				target.hide();
+			} else {
+				level = 3;
+				show(target);
+			}
+			break;
+	}
+	pidNode.val(v || 0);
+	levelNode.val(level || 1);
+}
+
+	
+$(function() {
+	var type = '{$Think.ACTION_NAME}';
+	$('#frm').validate({
+		errorElement: 'span',
+		rules: {
+			name: {
+				required: true
+			},
+			title: {
+				required: true
+			},
+			remark: {
+				required: true
+			}
+		},
+		messages: {
+			name: {
+				required: '请输入节点名称'
+			},
+			title: {
+				required: '请输入节点标题'
+			},
+			remark: {
+				required: '请输入节点备注'
+			}
+		},
+		submitHandler: function(form) {
+			if (type == 'addNode') {
+				$.showConfirm('添加后节点关系不可修改，是否继续?', function() {
+					form.submit();
+				});
+			} else {
+				form.submit();
+			}
+		}
+	});
+});	
+
+
+</script>
+		
+		
+<div class="container">
+	<div class="row">
+		<if condition="$Think.const.ACTION_NAME eq 'addNode'">
+		{:show_breadcrumb()}
+		<else />
+		{:show_breadcrumb('编辑节点')}
+		</if>
+	</div>
+
+	<div class="row">
+		<div class="alert">
+			<strong>注意：</strong> 节点分三级，一级对应项目名，二级对应模块名，三级对应操作名。Eg：Home/Access/addNode
+		</div>
+		
+		
+		<form id="frm" name="frm" method="post" action="/index.php/Access/{$Think.const.ACTION_NAME}" autocomplete="off" class="form-horizontal">
+			<if condition="$Think.const.ACTION_NAME eq 'addNode'">
+				<input type="hidden" id="pid" name="pid" value="0" />
+				<input type="hidden" id="level" name="level" value="1" />
+			<else />
+				<input type="hidden" name="id" value="{$node.id}" />
+				<input type="hidden" name="pid" value="{$node.pid}" />
+			</if>
+			<div class="control-group">
+				<label class="control-label" for="name">节点名称：</label>
+				<div class="controls">
+					<input id="name" name="name" type="text" placeholder="1-20个字符" value="{$node.name}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="title">节点标题：</label>
+				<div class="controls">
+					<input id="title" name="title" type="text" placeholder="1-50个字符" value="{$node.title}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="pid_1">父级节点：</label>
+				<div class="controls">
+					<if condition="$Think.const.ACTION_NAME eq 'addNode'">
+						<select id="pid_1" name="pid_1" onchange="setPID(1);">
+							<option value="">—— 新增应用节点 ——</option>
+							<foreach name="pid_1" item="vo">
+							<option value="{$vo.id}">{$vo.title} ({$vo.name})</option>
+							</foreach>
+						</select>
+						<select id="pid_2" name="pid_2" onchange="setPID(2);" style="display:none;">
+							<option value="" data-pid="">—— 新增模块节点 ——</option>
+							<foreach name="pid_2" item="vo">
+							<option value="{$vo.id}" data-pid="{$vo.pid}">{$vo.title} ({$vo.name})</option>
+							</foreach>
+						</select>
+						<select id="pid_3" name="pid_3" style="display:none;">
+							<option value="" data-pid="">—— 新增操作节点 ——</option>
+							<foreach name="pid_3" item="vo">
+							<optgroup data-pid="{$vo.pid}" label="{$vo.title} ({$vo.name})"></optgroup>
+							</foreach>
+						</select>
+					<else />
+						<select id="pid_1" name="pid_1" class="fancy" disabled="disabled">
+							<option value="">应用节点</option>
+							<foreach name="pid_1" item="vo">
+							<option value="{$vo.id}" <eq name="node.pid1" value="$vo.id">selected="selected"</eq>>{$vo.title} ({$vo.name})</option>
+							</foreach>
+						</select>
+						<neq name="node.level" value="1">
+						<select id="pid_2" name="pid_2" class="fancy" disabled="disabled">
+							<option value="" data-pid="">模块节点</option>
+							<foreach name="pid_2" item="vo">
+							<option value="{$vo.id}" data-pid="{$vo.pid}" <eq name="node.pid2" value="$vo.id">selected="selected"<else />style="display:none;"</eq>>{$vo.title} ({$vo.name})</option>
+							</foreach>
+						</select>
+						</neq>
+						<eq name="node.level" value="3">
+						<select id="pid_3" name="pid_3">
+							<option value="" data-pid="">操作节点</option>
+							<foreach name="pid_3" item="vo">
+							<optgroup data-pid="{$vo.pid}" label="{$vo.title} ({$vo.name})" <neq name="node.pid2" value="$vo.pid">style="display:none;"</neq></optgroup>></optgroup>
+							</foreach>
+						</select>
+						</eq>
+					</if>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="status">节点状态：</label>
+				<div class="controls">
+					<select id="status" name="status" class="fancy">
+						<option value="1" <eq name="node.status" value="1">selected="selected"</eq>>启用</option>
+						<option value="0" <eq name="node.status" value="0">selected="selected"</eq>>禁用</option>
+					</select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="remark">节点备注：</label>
+				<div class="controls">
+					<textarea id="remark" name="remark" placeholder="1-255个字符" rows="6" class="span5">{$node.remark}</textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary"><if condition="$Think.const.ACTION_NAME eq 'addNode'">新 建<else />更 新</if></button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<include file="Public:footer" />

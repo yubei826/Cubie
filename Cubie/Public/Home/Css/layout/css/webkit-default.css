@@ -1,0 +1,1120 @@
+/*
+ * The default style sheet used to render HTML.
+ *
+ * http://trac.webkit.org/browser/trunk/Source/WebCore/css/html.css
+ *
+ * Copyright (C) 2000 Lars Knoll (knoll@kde.org)
+ * Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Apple Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public License
+ * along with this library; see the file COPYING.LIB.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ *
+ */
+/**
+ * LESS编译器不支持 #if内的&&,这里替换为AND,生成后请替换AND为&&
+ */@namespace "http://www.w3.org/1999/xhtml";
+/*.cubie-layout-body {
+    display: block;
+    margin: 8px; 
+}*/
+/*#if defined(ENABLE_IFRAME_SEAMLESS) && ENABLE_IFRAME_SEAMLESS*/
+/*.cubie-layout-body:-webkit-seamless-document {
+    margin: 0px;
+}*/
+/*#endif*/
+.cubie-layout-body {
+  /*html {
+        display: block
+    }*/
+
+  /* children of the <head> element all have display:none */
+
+  /* generic block-level elements */
+
+  /*body {
+        display: block;
+        margin: 8px
+    }
+
+
+    #if defined(ENABLE_IFRAME_SEAMLESS) && ENABLE_IFRAME_SEAMLESS
+    body:-webkit-seamless-document {
+        margin: 0px;
+    }
+    #endif*/
+
+  /* heading elements */
+
+  /* tables */
+
+  /* for tables without table section elements (can happen with XHTML or dynamically created tables) */
+
+  /* lists */
+
+  /* form elements */
+
+  /* Form controls don't go vertical. */
+
+  /*#if defined(ENABLE_DATALIST_ELEMENT) && ENABLE_DATALIST_ELEMENT*/
+
+  /*#endif*/
+
+  /*#if defined(ENABLE_INPUT_TYPE_DATE) && ENABLE_INPUT_TYPE_DATE*/
+
+  /*#endif*/
+
+  /*#if defined(ENABLE_INPUT_TYPE_DATETIME_INCOMPLETE) && ENABLE_INPUT_TYPE_DATETIME_INCOMPLETE*/
+
+  /*#endif*/
+
+  /*#if defined(ENABLE_INPUT_TYPE_DATETIMELOCAL) && ENABLE_INPUT_TYPE_DATETIMELOCAL*/
+
+  /*#endif*/
+
+  /*#if defined(ENABLE_INPUT_TYPE_MONTH) && ENABLE_INPUT_TYPE_MONTH*/
+
+  /*#endif*/
+
+  /*#if defined(ENABLE_INPUT_TYPE_TIME) && ENABLE_INPUT_TYPE_TIME*/
+
+  /*#endif*/
+
+  /*#if defined(ENABLE_INPUT_TYPE_WEEK) && ENABLE_INPUT_TYPE_WEEK*/
+
+  /*#endif*/
+
+  /*#if defined(ENABLE_INPUT_SPEECH) && ENABLE_INPUT_SPEECH*/
+
+  /*#endif*/
+
+  /*#if defined(ENABLE_INPUT_TYPE_COLOR) && ENABLE_INPUT_TYPE_COLOR*/
+
+  /*#if defined(ENABLE_DATALIST_ELEMENT) && ENABLE_DATALIST_ELEMENT*/
+
+  /*#endif*/
+
+  /*#endif*/
+
+  /* form validation message bubble */
+
+  /*#if defined(ENABLE_METER_ELEMENT) && ENABLE_METER_ELEMENT*/
+
+  /*#endif*/
+
+  /*#if defined(ENABLE_PROGRESS_ELEMENT) && ENABLE_PROGRESS_ELEMENT*/
+
+  /*#endif*/
+
+  /* states */
+
+  /* Read-only text fields do not show a focus ring but do still receive focus */
+
+  /* HTML5 ruby elements */
+
+  /* other elements */
+
+  /*#if defined(ENABLE_TEMPLATE_ELEMENT) && ENABLE_TEMPLATE_ELEMENT*/
+
+  /*#endif*/
+
+  /* page */
+
+  /* noscript is handled internally, as it depends on settings. */
+
+}
+.cubie-layout-body head {
+  display: none;
+}
+.cubie-layout-body meta {
+  display: none;
+}
+.cubie-layout-body title {
+  display: none;
+}
+.cubie-layout-body link {
+  display: none;
+}
+.cubie-layout-body style {
+  display: none;
+}
+.cubie-layout-body script {
+  display: none;
+}
+.cubie-layout-body p {
+  display: block;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1__qem;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+}
+.cubie-layout-body div {
+  display: block;
+}
+.cubie-layout-body layer {
+  display: block;
+}
+.cubie-layout-body article,
+.cubie-layout-body aside,
+.cubie-layout-body footer,
+.cubie-layout-body header,
+.cubie-layout-body hgroup,
+.cubie-layout-body main,
+.cubie-layout-body nav,
+.cubie-layout-body section {
+  display: block;
+}
+.cubie-layout-body marquee {
+  display: inline-block;
+  overflow: -webkit-marquee;
+}
+.cubie-layout-body address {
+  display: block;
+}
+.cubie-layout-body blockquote {
+  display: block;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 40px;
+  -webkit-margin-end: 40px;
+}
+.cubie-layout-body figcaption {
+  display: block;
+}
+.cubie-layout-body figure {
+  display: block;
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 40px;
+  -webkit-margin-end: 40px;
+}
+.cubie-layout-body q {
+  display: inline;
+}
+.cubie-layout-body q:before {
+  content: open-quote;
+}
+.cubie-layout-body q:after {
+  content: close-quote;
+}
+.cubie-layout-body center {
+  display: block;
+  /* special centering to be able to emulate the html4/netscape behaviour */
+
+  text-align: -webkit-center;
+}
+.cubie-layout-body hr {
+  display: block;
+  -webkit-margin-before: 0.5em;
+  -webkit-margin-after: 0.5em;
+  -webkit-margin-start: auto;
+  -webkit-margin-end: auto;
+  border-style: inset;
+  border-width: 1px;
+}
+.cubie-layout-body map {
+  display: inline;
+}
+.cubie-layout-body video {
+  object-fit: contain;
+}
+.cubie-layout-body h1 {
+  display: block;
+  font-size: 2em;
+  -webkit-margin-before: 0.67__qem;
+  -webkit-margin-after: 0.67em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.cubie-layout-body :-webkit-any(article,aside,nav,section) h1 {
+  font-size: 1.5em;
+  -webkit-margin-before: 0.83__qem;
+  -webkit-margin-after: 0.83em;
+}
+.cubie-layout-body :-webkit-any(article,aside,nav,section) :-webkit-any(article,aside,nav,section) h1 {
+  font-size: 1.17em;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+}
+.cubie-layout-body :-webkit-any(article,aside,nav,section) :-webkit-any(article,aside,nav,section) :-webkit-any(article,aside,nav,section) h1 {
+  font-size: 1.00em;
+  -webkit-margin-before: 1.33__qem;
+  -webkit-margin-after: 1.33em;
+}
+.cubie-layout-body :-webkit-any(article,aside,nav,section) :-webkit-any(article,aside,nav,section) :-webkit-any(article,aside,nav,section) :-webkit-any(article,aside,nav,section) h1 {
+  font-size: .83em;
+  -webkit-margin-before: 1.67__qem;
+  -webkit-margin-after: 1.67em;
+}
+.cubie-layout-body :-webkit-any(article,aside,nav,section) :-webkit-any(article,aside,nav,section) :-webkit-any(article,aside,nav,section) :-webkit-any(article,aside,nav,section) :-webkit-any(article,aside,nav,section) h1 {
+  font-size: .67em;
+  -webkit-margin-before: 2.33__qem;
+  -webkit-margin-after: 2.33em;
+}
+.cubie-layout-body h2 {
+  display: block;
+  font-size: 1.5em;
+  -webkit-margin-before: 0.83__qem;
+  -webkit-margin-after: 0.83em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.cubie-layout-body h3 {
+  display: block;
+  font-size: 1.17em;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.cubie-layout-body h4 {
+  display: block;
+  -webkit-margin-before: 1.33__qem;
+  -webkit-margin-after: 1.33em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.cubie-layout-body h5 {
+  display: block;
+  font-size: .83em;
+  -webkit-margin-before: 1.67__qem;
+  -webkit-margin-after: 1.67em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.cubie-layout-body h6 {
+  display: block;
+  font-size: .67em;
+  -webkit-margin-before: 2.33__qem;
+  -webkit-margin-after: 2.33em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  font-weight: bold;
+}
+.cubie-layout-body table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border-color: #808080;
+}
+.cubie-layout-body thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+.cubie-layout-body tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+.cubie-layout-body tfoot {
+  display: table-footer-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+.cubie-layout-body table > tr {
+  vertical-align: middle;
+}
+.cubie-layout-body col {
+  display: table-column;
+}
+.cubie-layout-body colgroup {
+  display: table-column-group;
+}
+.cubie-layout-body tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+.cubie-layout-body td,
+.cubie-layout-body th {
+  display: table-cell;
+  vertical-align: inherit;
+}
+.cubie-layout-body th {
+  font-weight: bold;
+}
+.cubie-layout-body caption {
+  display: table-caption;
+  text-align: -webkit-center;
+}
+.cubie-layout-body ul,
+.cubie-layout-body menu,
+.cubie-layout-body dir {
+  display: block;
+  list-style-type: disc;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-start: 40px;
+}
+.cubie-layout-body ol {
+  display: block;
+  list-style-type: decimal;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-start: 40px;
+}
+.cubie-layout-body li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
+.cubie-layout-body ul ul,
+.cubie-layout-body ol ul {
+  list-style-type: circle;
+}
+.cubie-layout-body ol ol ul,
+.cubie-layout-body ol ul ul,
+.cubie-layout-body ul ol ul,
+.cubie-layout-body ul ul ul {
+  list-style-type: square;
+}
+.cubie-layout-body dd {
+  display: block;
+  -webkit-margin-start: 40px;
+}
+.cubie-layout-body dl {
+  display: block;
+  -webkit-margin-before: 1__qem;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+}
+.cubie-layout-body dt {
+  display: block;
+}
+.cubie-layout-body ol ul,
+.cubie-layout-body ul ol,
+.cubie-layout-body ul ul,
+.cubie-layout-body ol ol {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+.cubie-layout-body form {
+  display: block;
+  margin-top: 0__qem;
+}
+.cubie-layout-body label {
+  cursor: default;
+}
+.cubie-layout-body legend {
+  display: block;
+  -webkit-padding-start: 2px;
+  -webkit-padding-end: 2px;
+  border: none;
+}
+.cubie-layout-body fieldset {
+  display: block;
+  -webkit-margin-start: 2px;
+  -webkit-margin-end: 2px;
+  -webkit-padding-before: 0.35em;
+  -webkit-padding-start: 0.75em;
+  -webkit-padding-end: 0.75em;
+  -webkit-padding-after: 0.625em;
+  border: 2px groove ThreeDFace;
+  min-width: -webkit-min-content;
+}
+.cubie-layout-body button {
+  -webkit-appearance: button;
+}
+.cubie-layout-body input,
+.cubie-layout-body textarea,
+.cubie-layout-body keygen,
+.cubie-layout-body select,
+.cubie-layout-body button,
+.cubie-layout-body isindex,
+.cubie-layout-body meter,
+.cubie-layout-body progress {
+  -webkit-writing-mode: horizontal-tb !important;
+}
+.cubie-layout-body input,
+.cubie-layout-body textarea,
+.cubie-layout-body keygen,
+.cubie-layout-body select,
+.cubie-layout-body button,
+.cubie-layout-body isindex {
+  margin: 0__qem;
+  font: -webkit-small-control;
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  line-height: normal;
+  text-transform: none;
+  text-indent: 0;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+}
+.cubie-layout-body input {
+  line-height: normal !important;
+}
+.cubie-layout-body input[type="hidden"] {
+  display: none;
+}
+.cubie-layout-body input,
+.cubie-layout-body input[type="password"],
+.cubie-layout-body input[type="search"],
+.cubie-layout-body isindex {
+  -webkit-appearance: textfield;
+  padding: 1px;
+  background-color: white;
+  border: 2px inset;
+  -webkit-rtl-ordering: logical;
+  -webkit-user-select: text;
+  cursor: auto;
+}
+.cubie-layout-body input[type="search"] {
+  -webkit-appearance: searchfield;
+  box-sizing: border-box;
+}
+.cubie-layout-body input::-webkit-textfield-decoration-container {
+  display: -webkit-flex;
+  -webkit-align-items: center;
+  -webkit-user-modify: read-only !important;
+  content: none !important;
+}
+.cubie-layout-body input[type="search"]::-webkit-textfield-decoration-container {
+  direction: ltr;
+}
+.cubie-layout-body input::-webkit-clear-button {
+  -webkit-appearance: searchfield-cancel-button;
+  display: inline-block;
+  -webkit-flex: none;
+  -webkit-user-modify: read-only !important;
+  margin-left: 2px;
+}
+.cubie-layout-body input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
+  display: block;
+  -webkit-flex: none;
+  -webkit-user-modify: read-only !important;
+  -webkit-align-self: flex-start;
+  margin: auto 0;
+}
+.cubie-layout-body input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: searchfield-decoration;
+  display: block;
+  -webkit-flex: none;
+  -webkit-user-modify: read-only !important;
+  -webkit-align-self: flex-start;
+  margin: auto 0;
+}
+.cubie-layout-body input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: searchfield-results-decoration;
+  display: block;
+  -webkit-flex: none;
+  -webkit-user-modify: read-only !important;
+  -webkit-align-self: flex-start;
+  margin: auto 0;
+}
+.cubie-layout-body input[type="search"]::-webkit-search-results-button {
+  -webkit-appearance: searchfield-results-button;
+  display: block;
+  -webkit-flex: none;
+  -webkit-user-modify: read-only !important;
+}
+.cubie-layout-body datalist {
+  display: none;
+}
+.cubie-layout-body input[type="date"] {
+  -webkit-align-items: center;
+  -webkit-appearance: menulist-button;
+  display: -webkit-inline-flex;
+  overflow: hidden;
+  width: 10em;
+}
+.cubie-layout-body input[type="datetime"] {
+  -webkit-align-items: center;
+  -webkit-appearance: menulist-button;
+  display: -webkit-inline-flex;
+  overflow: hidden;
+  width: 10em;
+}
+.cubie-layout-body input[type="datetime-local"] {
+  -webkit-align-items: center;
+  -webkit-appearance: menulist-button;
+  display: -webkit-inline-flex;
+  overflow: hidden;
+  width: 10em;
+}
+.cubie-layout-body input[type="month"] {
+  -webkit-align-items: center;
+  -webkit-appearance: menulist-button;
+  display: -webkit-inline-flex;
+  overflow: hidden;
+  width: 10em;
+}
+.cubie-layout-body input[type="time"] {
+  -webkit-align-items: center;
+  -webkit-appearance: menulist-button;
+  display: -webkit-inline-flex;
+  overflow: hidden;
+  width: 10em;
+}
+.cubie-layout-body input[type="week"] {
+  -webkit-align-items: center;
+  -webkit-appearance: menulist-button;
+  display: -webkit-inline-flex;
+  overflow: hidden;
+  width: 10em;
+}
+.cubie-layout-body input::-webkit-date-and-time-value {
+  margin: 1px 24px 1px 4px;
+  white-space: pre;
+}
+.cubie-layout-body input::-webkit-inner-spin-button {
+  -webkit-appearance: inner-spin-button;
+  display: block;
+  position: relative;
+  cursor: default;
+  /* This height property is ignored for input type "number" and others which
+         * use RenderTextControlSingleLine as renderer which sets height of spin
+         * button in layout(). */
+
+  height: 1.5em;
+  vertical-align: top;
+  -webkit-flex: none;
+  -webkit-user-select: none;
+  -webkit-user-modify: read-only !important;
+}
+.cubie-layout-body input::-webkit-input-speech-button {
+  -webkit-appearance: -webkit-input-speech-button;
+  display: block;
+  vertical-align: top;
+  -webkit-flex: none;
+  -webkit-user-modify: read-only !important;
+  -webkit-align-self: flex-start;
+  margin: auto 0;
+}
+.cubie-layout-body keygen,
+.cubie-layout-body select {
+  border-radius: 5px;
+}
+.cubie-layout-body keygen::-webkit-keygen-select {
+  margin: 0px;
+}
+.cubie-layout-body textarea {
+  -webkit-appearance: textarea;
+  background-color: white;
+  border: 1px solid;
+  -webkit-rtl-ordering: logical;
+  -webkit-user-select: text;
+  -webkit-flex-direction: column;
+  resize: auto;
+  cursor: auto;
+  padding: 2px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.cubie-layout-body ::-webkit-input-placeholder {
+  -webkit-text-security: none;
+  color: darkGray;
+  display: block !important;
+  pointer-events: none !important;
+}
+.cubie-layout-body input::-webkit-input-placeholder,
+.cubie-layout-body isindex::-webkit-input-placeholder {
+  white-space: pre;
+  word-wrap: normal;
+  overflow: hidden;
+  -webkit-user-modify: read-only !important;
+}
+.cubie-layout-body input[type="password"] {
+  -webkit-text-security: disc !important;
+}
+.cubie-layout-body input[type="hidden"],
+.cubie-layout-body input[type="image"],
+.cubie-layout-body input[type="file"] {
+  -webkit-appearance: initial;
+  padding: initial;
+  background-color: initial;
+  border: initial;
+}
+.cubie-layout-body input[type="file"] {
+  -webkit-align-items: baseline;
+  color: inherit;
+  text-align: start !important;
+}
+.cubie-layout-body input:-webkit-autofill {
+  background-color: #FAFFBD !important;
+  background-image: none !important;
+  color: #000000 !important;
+}
+.cubie-layout-body input[type="radio"],
+.cubie-layout-body input[type="checkbox"] {
+  margin: 3px 0.5ex;
+  padding: initial;
+  background-color: initial;
+  border: initial;
+}
+.cubie-layout-body input[type="button"],
+.cubie-layout-body input[type="submit"],
+.cubie-layout-body input[type="reset"] {
+  -webkit-appearance: push-button;
+  white-space: pre;
+}
+.cubie-layout-body input[type="file"]::-webkit-file-upload-button {
+  -webkit-appearance: push-button;
+  -webkit-user-modify: read-only !important;
+  white-space: nowrap;
+  margin: 0;
+  font-size: inherit;
+}
+.cubie-layout-body input[type="button"],
+.cubie-layout-body input[type="submit"],
+.cubie-layout-body input[type="reset"],
+.cubie-layout-body input[type="file"]::-webkit-file-upload-button,
+.cubie-layout-body button {
+  -webkit-align-items: flex-start;
+  text-align: center;
+  cursor: default;
+  color: ButtonText;
+  padding: 2px 6px 3px 6px;
+  border: 2px outset ButtonFace;
+  background-color: ButtonFace;
+  box-sizing: border-box;
+}
+.cubie-layout-body input[type="range"] {
+  -webkit-appearance: slider-horizontal;
+  padding: initial;
+  border: initial;
+  margin: 2px;
+  color: #909090;
+}
+.cubie-layout-body input[type="range"]::-webkit-slider-container,
+.cubie-layout-body input[type="range"]::-webkit-media-slider-container {
+  -webkit-flex: 1;
+  box-sizing: border-box;
+  -webkit-user-modify: read-only !important;
+  display: -webkit-flex;
+  -webkit-align-contents: center;
+}
+.cubie-layout-body input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-flex: 1;
+  -webkit-align-self: center;
+  box-sizing: border-box;
+  -webkit-user-modify: read-only !important;
+  display: block;
+}
+.cubie-layout-body input[type="range"]::-webkit-slider-thumb,
+.cubie-layout-body input[type="range"]::-webkit-media-slider-thumb {
+  -webkit-appearance: sliderthumb-horizontal;
+  box-sizing: border-box;
+  -webkit-user-modify: read-only !important;
+  display: block;
+}
+.cubie-layout-body input[type="button"]:disabled,
+.cubie-layout-body input[type="submit"]:disabled,
+.cubie-layout-body input[type="reset"]:disabled,
+.cubie-layout-body input[type="file"]:disabled::-webkit-file-upload-button,
+.cubie-layout-body button:disabled,
+.cubie-layout-body select:disabled,
+.cubie-layout-body keygen:disabled,
+.cubie-layout-body optgroup:disabled,
+.cubie-layout-body option:disabled,
+.cubie-layout-body select[disabled] > option {
+  color: GrayText;
+}
+.cubie-layout-body input[type="button"]:active,
+.cubie-layout-body input[type="submit"]:active,
+.cubie-layout-body input[type="reset"]:active,
+.cubie-layout-body input[type="file"]:active::-webkit-file-upload-button,
+.cubie-layout-body button:active {
+  border-style: inset;
+}
+.cubie-layout-body input[type="button"]:active:disabled,
+.cubie-layout-body input[type="submit"]:active:disabled,
+.cubie-layout-body input[type="reset"]:active:disabled,
+.cubie-layout-body input[type="file"]:active:disabled::-webkit-file-upload-button,
+.cubie-layout-body button:active:disabled {
+  border-style: outset;
+}
+.cubie-layout-body area,
+.cubie-layout-body param {
+  display: none;
+}
+.cubie-layout-body input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+  box-sizing: border-box;
+}
+.cubie-layout-body input[type="radio"] {
+  -webkit-appearance: radio;
+  box-sizing: border-box;
+}
+.cubie-layout-body input[type="color"] {
+  -webkit-appearance: square-button;
+  width: 44px;
+  height: 23px;
+}
+.cubie-layout-body input[type="color"]::-webkit-color-swatch-wrapper {
+  display: -webkit-flex;
+  padding: 4px 2px;
+  box-sizing: border-box;
+  -webkit-user-modify: read-only !important;
+  width: 100%;
+  height: 100%;
+}
+.cubie-layout-body input[type="color"]::-webkit-color-swatch {
+  background-color: #000000;
+  border: 1px solid #777777;
+  -webkit-flex: 1;
+  -webkit-user-modify: read-only !important;
+}
+.cubie-layout-body input[type="color"][list] {
+  -webkit-appearance: menulist;
+  width: 88px;
+  height: 23px;
+}
+.cubie-layout-body input[type="color"][list]::-webkit-color-swatch-wrapper {
+  padding-left: 8px;
+  padding-right: 24px;
+}
+.cubie-layout-body input[type="color"][list]::-webkit-color-swatch {
+  border-color: #000000;
+}
+.cubie-layout-body select {
+  -webkit-appearance: menulist;
+  box-sizing: border-box;
+  -webkit-align-items: center;
+  border: 1px solid;
+  white-space: pre;
+  -webkit-rtl-ordering: logical;
+  color: black;
+  background-color: white;
+  cursor: default;
+}
+.cubie-layout-body select[size],
+.cubie-layout-body select[multiple],
+.cubie-layout-body select[size][multiple] {
+  -webkit-appearance: listbox;
+  -webkit-align-items: flex-start;
+  border: 1px inset gray;
+  border-radius: initial;
+  white-space: initial;
+}
+.cubie-layout-body select[size="0"],
+.cubie-layout-body select[size="1"] {
+  -webkit-appearance: menulist;
+  -webkit-align-items: center;
+  border: 1px solid;
+  border-radius: 5px;
+  white-space: pre;
+}
+.cubie-layout-body optgroup {
+  font-weight: bolder;
+}
+.cubie-layout-body option {
+  font-weight: normal;
+}
+.cubie-layout-body output {
+  display: inline;
+}
+.cubie-layout-body ::-webkit-validation-bubble {
+  display: inline-block;
+  z-index: 2147483647;
+  position: absolute;
+  opacity: 0.95;
+  line-height: 0;
+  margin: 0;
+  -webkit-text-security: none;
+  -webkit-transition: opacity 05.5s ease;
+  -webkit-user-modify: read-only !important;
+}
+.cubie-layout-body ::-webkit-validation-bubble-message {
+  display: -webkit-flex;
+  position: relative;
+  top: -4px;
+  font: message-box;
+  color: black;
+  min-width: 50px;
+  max-width: 200px;
+  border: solid 2px #400;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f8ecec), to(#e8cccc));
+  padding: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: 4px 4px 4px rgba(100, 100, 100, 0.6), inset -2px -2px 1px #d0c4c4, inset 2px 2px 1px #ffffff;
+  -webkit-user-modify: read-only !important;
+  line-height: normal;
+  white-space: normal;
+  z-index: 2147483644;
+}
+.cubie-layout-body ::-webkit-validation-bubble-text-block {
+  -webkit-flex: 1;
+  -webkit-user-modify: read-only !important;
+}
+.cubie-layout-body ::-webkit-validation-bubble-heading {
+  font-weight: bold;
+  -webkit-user-modify: read-only !important;
+}
+.cubie-layout-body ::-webkit-validation-bubble-arrow {
+  display: inline-block;
+  position: relative;
+  left: 32px;
+  width: 16px;
+  height: 16px;
+  background-color: #f8ecec;
+  border-width: 2px 0 0 2px;
+  border-style: solid;
+  border-color: #400;
+  box-shadow: inset 2px 2px 1px white;
+  -webkit-transform-origin: 0 0;
+  -webkit-transform: rotate(45deg);
+  -webkit-user-modify: read-only !important;
+  z-index: 2147483645;
+}
+.cubie-layout-body ::-webkit-validation-bubble-arrow-clipper {
+  display: block;
+  overflow: hidden;
+  height: 16px;
+  -webkit-user-modify: read-only !important;
+}
+.cubie-layout-body meter {
+  -webkit-appearance: meter;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 1em;
+  width: 5em;
+  vertical-align: -0.2em;
+}
+.cubie-layout-body meter::-webkit-meter-inner-element {
+  -webkit-appearance: inherit;
+  box-sizing: inherit;
+  -webkit-user-modify: read-only !important;
+  height: 100%;
+  width: 100%;
+}
+.cubie-layout-body meter::-webkit-meter-bar {
+  background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#dddddd), color-stop(0.2, #eeeeee), color-stop(0.45, #cccccc), color-stop(0.55, #cccccc));
+  height: 100%;
+  width: 100%;
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.cubie-layout-body meter::-webkit-meter-optimum-value {
+  background: -webkit-gradient(linear, left top, left bottom, from(#aadd77), to(#aadd77), color-stop(0.2, #cceeaa), color-stop(0.45, #77aa33), color-stop(0.55, #77aa33));
+  height: 100%;
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.cubie-layout-body meter::-webkit-meter-suboptimum-value {
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffee77), to(#ffee77), color-stop(0.2, #ffffcc), color-stop(0.45, #ddbb33), color-stop(0.55, #ddbb33));
+  height: 100%;
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.cubie-layout-body meter::-webkit-meter-even-less-good-value {
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff7777), to(#ff7777), color-stop(0.2, #ffcccc), color-stop(0.45, #dd4444), color-stop(0.55, #dd4444));
+  height: 100%;
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.cubie-layout-body progress {
+  -webkit-appearance: progress-bar;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 1em;
+  width: 10em;
+  vertical-align: -0.2em;
+}
+.cubie-layout-body progress::-webkit-progress-inner-element {
+  -webkit-appearance: inherit;
+  box-sizing: inherit;
+  -webkit-user-modify: read-only;
+  height: 100%;
+  width: 100%;
+}
+.cubie-layout-body progress::-webkit-progress-bar {
+  background-color: gray;
+  height: 100%;
+  width: 100%;
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.cubie-layout-body progress::-webkit-progress-value {
+  background-color: green;
+  height: 100%;
+  width: 50%;
+  /* should be removed later */
+
+  -webkit-user-modify: read-only !important;
+  box-sizing: border-box;
+}
+.cubie-layout-body u,
+.cubie-layout-body ins {
+  text-decoration: underline;
+}
+.cubie-layout-body strong,
+.cubie-layout-body b {
+  font-weight: bold;
+}
+.cubie-layout-body i,
+.cubie-layout-body cite,
+.cubie-layout-body em,
+.cubie-layout-body var,
+.cubie-layout-body address,
+.cubie-layout-body dfn {
+  font-style: italic;
+}
+.cubie-layout-body tt,
+.cubie-layout-body code,
+.cubie-layout-body kbd,
+.cubie-layout-body samp {
+  font-family: monospace;
+}
+.cubie-layout-body pre,
+.cubie-layout-body xmp,
+.cubie-layout-body plaintext,
+.cubie-layout-body listing {
+  display: block;
+  font-family: monospace;
+  white-space: pre;
+  margin: 1 __qem 0;
+}
+.cubie-layout-body mark {
+  background-color: yellow;
+  color: #000000;
+}
+.cubie-layout-body big {
+  font-size: larger;
+}
+.cubie-layout-body small {
+  font-size: smaller;
+}
+.cubie-layout-body s,
+.cubie-layout-body strike,
+.cubie-layout-body del {
+  text-decoration: line-through;
+}
+.cubie-layout-body sub {
+  vertical-align: sub;
+  font-size: smaller;
+}
+.cubie-layout-body sup {
+  vertical-align: super;
+  font-size: smaller;
+}
+.cubie-layout-body nobr {
+  white-space: nowrap;
+}
+.cubie-layout-body :focus {
+  outline: auto 5px -webkit-focus-ring-color;
+}
+.cubie-layout-body html:focus,
+.cubie-layout-body body:focus,
+.cubie-layout-body input[readonly]:focus {
+  outline: none;
+}
+.cubie-layout-body applet:focus,
+.cubie-layout-body embed:focus,
+.cubie-layout-body iframe:focus,
+.cubie-layout-body object:focus {
+  outline: none;
+}
+.cubie-layout-body input:focus,
+.cubie-layout-body textarea:focus,
+.cubie-layout-body isindex:focus,
+.cubie-layout-body keygen:focus,
+.cubie-layout-body select:focus {
+  outline-offset: -2px;
+}
+.cubie-layout-body input[type="button"]:focus,
+.cubie-layout-body input[type="checkbox"]:focus,
+.cubie-layout-body input[type="file"]:focus,
+.cubie-layout-body input[type="hidden"]:focus,
+.cubie-layout-body input[type="image"]:focus,
+.cubie-layout-body input[type="radio"]:focus,
+.cubie-layout-body input[type="reset"]:focus,
+.cubie-layout-body input[type="search"]:focus,
+.cubie-layout-body input[type="submit"]:focus,
+.cubie-layout-body input[type="file"]:focus::-webkit-file-upload-button {
+  outline-offset: 0;
+}
+.cubie-layout-body a:-webkit-any-link {
+  color: -webkit-link;
+  text-decoration: underline;
+  cursor: auto;
+}
+.cubie-layout-body a:-webkit-any-link:active {
+  color: -webkit-activelink;
+}
+.cubie-layout-body ruby,
+.cubie-layout-body rt {
+  text-indent: 0;
+  /* blocks used for ruby rendering should not trigger this */
+
+}
+.cubie-layout-body rt {
+  line-height: normal;
+  -webkit-text-emphasis: none;
+}
+.cubie-layout-body ruby > rt {
+  display: block;
+  font-size: 50%;
+  text-align: start;
+}
+.cubie-layout-body ruby > rp {
+  display: none;
+}
+.cubie-layout-body noframes {
+  display: none;
+}
+.cubie-layout-body frameset,
+.cubie-layout-body frame {
+  display: block;
+}
+.cubie-layout-body frameset {
+  border-color: inherit;
+}
+.cubie-layout-body iframe:not([seamless]) {
+  border: 2px inset;
+}
+.cubie-layout-body iframe[seamless] {
+  display: block;
+}
+.cubie-layout-body details {
+  display: block;
+}
+.cubie-layout-body summary {
+  display: block;
+}
+.cubie-layout-body summary::-webkit-details-marker {
+  display: inline-block;
+  width: 0.66em;
+  height: 0.66em;
+  margin-right: 0.4em;
+}
+.cubie-layout-body template {
+  display: none;
+}
+.cubie-layout-body bdi,
+.cubie-layout-body output {
+  unicode-bidi: -webkit-isolate;
+}
+.cubie-layout-body bdo {
+  unicode-bidi: bidi-override;
+}
+@page  {
+  size: auto;
+  margin: auto;
+  padding: 0px;
+  border-width: 0px;/* FIXME: Define the right default values for page properties. */
+}

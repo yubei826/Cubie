@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Cubie {$APP.Version}</title>
+<!-- 项目样式放到最前,这样可尽量减少对布局样式的影响 -->
+{$project_tpl.css_file}
+
+<css href="/Public/Home/Css/layout/css/reset.css" />
+<css href="/Public/Home/Css/layout/css/common.css" />
+<css href="/Public/Home/Css/layout/css/grid.css" />
+<css href="/Public/Home/Css/layout/css/icon.css" />
+<css href="/Public/Home/Css/layout/css/form.css" />
+<css href="/Public/Home/Css/layout/css/modal.css" />
+<css href="/Public/Home/Css/layout/css/layout.css" />
+
+<js href="/Public/Home/Js/jquery-2.0.3.min.js" />
+<js href="/Public/Home/Css/layout/js/modal.js" />
+<include file="Public:js_jqueryui" />
+<include file="Public:js_validate" />
+<include file="Public:js_uploadify" />
+<include file="Public:js_colorpicker" />
+<include file="Public:js_contextMenu" />
+<include file="Public:js_codemirror" />
+<js href="/Public/Home/Js/md5.js" />
+
+<script type="text/javascript">
+var __tpl__ = {
+	domain: '{$project_tpl.domain}'
+	// charset: ('{$tpl.charset}'.toLowerCase() == 'utf-8') ? 'utf-8' : 'gbk'
+};
+
+var __project__ = {
+	id: parseInt('{$project.id}', 10),
+	draft: parseInt('{$project.draft}', 10) || 0, // 是否存在草稿
+	draftFileTime: '{$project.draft_file_time}', // 草稿保存时间
+	status: parseInt('{$project.status}', 10), // 发布状态
+	audit_status: parseInt('{$project.audit_status}', 10), // 审批状态
+	url: '{$project._path}' // 项目URL
+};
+
+var __category__ = {
+	pub_api: '{$category.pub_api}' // 运维发布接口
+};
+</script>
+
+</head>
+
+<body id="cubie_body">
+<!-- app.js要后置到body内初始化,防止Modal初始化DOM时失败 -->
+<include file="Public:js_app" />
+
+<js href="/Public/Home/Js/layout-common.js" />
+
+<!-- 引入公用特性 -->
+<include file="Public:feature" />
+<js href="/Public/Home/Js/feature.js" />
+
+
+<js href="/Public/Home/Js/plugin.js" />
+<js href="/Public/Home/Js/module.js" />
+<js href="/Public/Home/Js/layout.js" />
+
+
+<!-- 菜单 -->
+<div class="cubie cubie-menu">
+	<a class="cubie-menu-logo" href="/" target="_blank">Cubie<sup>{$APP.Version}</sup></a>
+	<div class="cubie-menu-inner clearfix">
+		<div class="cubie-menu-main">
+			<ul id="cubie_menu_nav" class="cubie-menu-nav">
+				<li><a href="#" data-event="toggleProjectPanel">项目属性</a></li>
+				<li>
+					<a href="#" class="js-dropdown-toggle">设置 <b class="cubie-caret"></b></a>
+					<ul class="cubie-dropdown-menu">
+						<li><a href="#" data-event="toggleLayoutPanel">布局属性</a></li>
+						<li><a href="#" data-event="toggleOutputPanel">预览/输出设置</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#" class="js-dropdown-toggle">编辑 <b class="cubie-caret"></b></a>
+					<ul class="cubie-dropdown-menu">
+						<li><a href="#" data-event="saveDraft">保存草稿 (Ctrl+S)</a></li>
+						<li><a href="#" data-event="preview">预览 (Ctrl+P)</a></li>
+						<li class="cubie-divider"></li>
+						<li id="delDraft_li"><a href="#" data-event="delDraft">删除草稿</a></li>
+						<li id="zip_li"><a href="#" data-event="zip">导出Zip包</a></li>
+						<li class="cubie-divider"></li>
+						<li><a href="#" data-event="toggleGlobalHtml">编辑全局HTML/CSS/Javascript</a></li>
+						<li class="cubie-divider"></li>
+						<li id="prePub_li"><a href="#" data-event="prePub">预发布</a></li>
+						<li id="pub_li"><a href="#" data-event="pub">正式发布</a></li>
+						<li class="cubie-divider"></li>
+						<li><a href="#" data-event="endEdit">结束编辑</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="cubie-menu-sub">
+			<div class="cubie-menu-tips">
+				<div id="cubie_coord">X:0; Y:0</div>
+				<div id="cubie_tips" class="cubie-menu-hints"></div>
+			</div>
+
+			<i id="cubie_toggleGridLine" class="icon-th" title="隐藏网格线" data-event="toggleGridLine"></i>
+			<i id="cubie_toggleCoordinateLine" class="icon-screenshot" title="隐藏坐标线" data-event="toggleCoordinateLine"></i>
+			<i id="cubie_toggleTplSubstrate" class="icon-adjust" title="隐藏项目模板衬底" data-event="toggleTplSubstrate"></i>
+			<i id="cubie_toggleTplSubstrateBlock" class="icon-th-large" title="隐藏衬底区块" data-event="toggleTplSubstrateBlock"></i>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			var openLi = null;
+
+			$('.js-dropdown-toggle').click(function(e) {
+				var parent = $(this).parent('li');
+				var menu = parent.find('.cubie-dropdown-menu');
+
+				if (openLi && parent.get(0) != openLi) {
+					$(openLi).removeClass('cubie-active').find('.cubie-dropdown-menu').hide();
+				}
+
+				if (parent.hasClass('cubie-active')) {
+					parent.removeClass('cubie-active');
+					menu.hide();
+				} else {
+					parent.addClass('cubie-active');
+					menu.css('left', parent.css('left'));
+					menu.show();
+				}
+				openLi = parent.get(0);
+				return false;
+			});
+			$(document).click(function() {
+				$('.cubie-dropdown-menu').hide().parent('li').removeClass('cubie-active');
+			});	
+		});
+	</script>
+</div>
+
+
+
+<!-- 组件面板 -->
+<div id="cubie_sidebar_wrapper" class="cubie cubie-sidebar-wrapper">
+	<ul id="cubie_module_tab" class="cubie-module-category">
+		<li class="cubie-module-category-close"><i class="icon-chevron-left icon-white" title="关闭" data-event="closeSidebar"></i></li>
+		<li class="on" data-event="switchModule" data-module-type="common">公用组件</li>
+		<li id="cubie_module_tab_project" data-event="switchModule" data-module-type="project" style="display:none">项目组件</li>
+	</ul>
+	<div id="cubie_module_list"  class="cubie-module-list">
+		<!-- 公用组件 -->
+		<ul id="cubie_module_common" class="clearfix">
+			<foreach name="module" item="vo">
+				<eq name="vo.category_id" value="0">
+					<li data-moduleid="{$vo.id}">
+						<img src="{$vo.thumbnail_url}" />
+						<div class="cubie-module-name">{$vo.title}</div>
+
+						<!-- 组件html、css、js、feature -->
+						<textarea id="module_source_{$vo.id}_title" style="display:none">{$vo.title}</textarea>
+						<textarea id="module_source_{$vo.id}_html" style="display:none">{$vo.html}</textarea>
+						<textarea id="module_source_{$vo.id}_js" style="display:none">{$vo.js}</textarea>
+						<textarea id="module_source_{$vo.id}_css" style="display:none">{$vo.css}</textarea>
+						<textarea id="module_source_{$vo.id}_feature_js" style="display:none">{$vo.feature_js}</textarea>
+						<textarea id="module_source_{$vo.id}_feature" style="display:none">{$vo.feature}</textarea>
+						
+						<!-- 组件样式实时渲染 -->
+						<style type="text/css">
+						{$vo.css}
+						</style>
+					</li>
+				</eq>
+			</foreach>
+		</ul>
+		<!-- 项目组件 -->
+		<ul id="cubie_module_project" style="display:none">
+			<foreach name="module" item="vo">
+				<neq name="vo.category_id" value="0">
+				<li data-moduleid="{$vo.id}">
+					<img src="{$vo.thumbnail_url}" />
+					<div class="cubie-module-name">{$vo.title}</div>
+
+					<!-- 组件html、css、js、feature -->
+					<textarea id="module_source_{$vo.id}_title" style="display:none">{$vo.title}</textarea>
+					<textarea id="module_source_{$vo.id}_html" style="display:none">{$vo.html}</textarea>
+					<textarea id="module_source_{$vo.id}_css" style="display:none">{$vo.css}</textarea>
+					<textarea id="module_source_{$vo.id}_js" style="display:none">{$vo.js}</textarea>
+					<textarea id="module_source_{$vo.id}_feature_js" style="display:none">{$vo.feature_js}</textarea>
+					<textarea id="module_source_{$vo.id}_feature" style="display:none">{$vo.feature}</textarea>
+
+					<!-- 组件样式实时渲染 -->
+					<style type="text/css">
+					{$vo.css}
+					</style>
+				</li>
+				</neq>
+			</foreach>
+		</ul>
+	</div>
+</div>
+<div id="cubie_sidebar_toggle" class="cubie-sidebar-toggle" style="display:none;"></div>
+	
+
+<!-- 项目属性 -->
+<div id="cubie_modal_project" class="cubie modal fade cubie-modal cubie-modal-project" style="display:none;">
+	<form method="post" action="#" autocomplete="off" class="form-horizontal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h3>项目属性</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row-fluid">
+			<div class="control-group">
+				<label class="control-label" for="tpl_name"><i class="icon-ok-circle" title="必填"></i> 项目模板：</label>
+				<div class="controls">
+					<span><a href="/index.php/Build/preview/id/{$tpl.id}" target="_blank">{$tpl.title}</a></span>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="project_title"><i class="icon-ok-circle" title="必填"></i> 项目名称：</label>
+				<div class="controls">
+					<input id="project_title" name="project_title" type="text" placeholder="1-20个字符" class="span8" value="{$project.title}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="project_intro"><i class="icon-ok-circle" title="必填"></i> 项目描述：</label>
+				<div class="controls">
+					<textarea id="project_intro" name="project_intro" placeholder="1-255个字符" rows="4" class="span8">{$project.intro}</textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="category_id"><i class="icon-ok-circle" title="必填"></i> 项目分类：</label>
+				<div class="controls">
+					<select disabled="disabled">
+						<option>{$category.intro}({$category.title})</option>
+					</select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label"><i class="icon-ok-circle" title="必填"></i> 项目路径：</label>
+				<div class="controls">
+					<input type="text" class="span8" value="{$project._path}" readonly />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="project_s_date">开始时间：</label>
+				<div class="controls">
+					<div class="input-append">
+						<input id="project_s_date" name="project_s_date" type="text" placeholder="YYYY-MM-DD" class="span10 cubie-date" readonly value="{$project.s_date}" />
+						<span id="btn_clear_sdate" class="add-on"><button class="close" title="移除">&times;</button></span>
+					</div>
+					<input id="project_s_time" name="project_s_time" type="text" placeholder="hh:mm:ss" class="span4" value="{$project.s_time}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="project_e_date">结束时间：</label>
+				<div class="controls">
+					<div class="input-append">
+						<input id="project_e_date" name="project_e_date" type="text" placeholder="YYYY-MM-DD" class="span10 cubie-date" readonly value="{$project.e_date}" />
+						<span id="btn_clear_edate" class="add-on"><button class="close" title="移除">&times;</button></span>
+					</div>
+					<input id="project_e_time" name="project_e_time" type="text" placeholder="hh:mm:ss" class="span4" value="{$project.e_time}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="project_tpl_thumbnail">缩略图：</label>
+				<div class="controls">
+					<div id="project_tpl_thumbnail"></div>
+					<p class="help-block" style="padding:10px 0;">请根据项目分类手动裁剪好尺寸再上传，缩略图最终被命名为index.xxx（xxx为原图片后缀）</p>
+					<div id="project_thumbnail_img" style="display:inline-block; margin-top:5px;"></div>
+					<input type="hidden" id="project_thumbnail" name="project_thumbnail" value="{$project._thumbnail}" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn" data-dismiss="modal">取 消</button>
+		<button type="submit" class="btn btn-primary">设 置</button>
+	</div>
+	</form>
+</div>
+
+
+<!-- 布局属性 -->
+<div id="cubie_modal_layout" class="cubie modal fade cubie-modal cubie-modal-perferences" style="display:none;">
+	<form method="post" action="#" autocomplete="off" class="form-horizontal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h3>布局属性</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row-fluid">
+			<fieldset>
+				<legend>可编辑区尺寸（水平居中对齐）</legend>
+				<div class="input-prepend input-append cubie-field">
+					<span class="add-on">宽</span>
+					<input id="layout_width" name="layout_width" type="text" placeholder="PX或百分比" class="input-small" autocomplete="off" />
+				</div>
+				<div class="input-prepend cubie-field">
+					<span class="add-on">高</span>
+					<input id="layout_height" name="layout_height" type="text" placeholder="PX" class="input-small" autocomplete="off" />
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>背景</legend>
+				<div class="input-prepend input-append cubie-field">
+					<span class="add-on">切片高度</span>
+					<input id="slices_height" name="slices_height" type="text" placeholder="留空不裁切" class="input-mini" value="200" autocomplete="off" />
+					<span class="add-on">PX</span>
+				</div>
+				<div class="input-prepend input-append cubie-field">
+					<span class="add-on">质量</span>
+					<input id="bg_quality" name="bg_quality" type="text" placeholder="0-100" class="input-mini" value="80" autocomplete="off" />
+					<span class="add-on">%</span>
+				</div>
+				<select id="bg_align" name="bg_align" class="span2 cubie-field">
+					<option value="left">居左</option>
+					<option value="center" selected>居中</option>
+					<option value="right">居右</option>
+				</select>
+				<select id="bg_repeat" name="bg_repeat" class="span2 cubie-field">
+					<option value="no-repeat">不平铺</option>
+					<option value="repeat-x">水平平铺</option>
+				</select>
+				<div class="input-prepend cubie-field">
+					<span class="add-on">背景色</span>
+					<input id="bg_color" name="bg_color" type="text" placeholder="背景色" class="input-mini" value="ffffff" autocomplete="off" />
+				</div>
+				<hr />
+				<div id="layout_bg_init"></div>
+			</fieldset>
+			<fieldset>
+				<legend>背景图列表</legend>
+				<div class="cubie-bg-thumbnails-wrapper">
+					<ul id="layout_bg_list" class="thumbnails"></ul>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn" data-dismiss="modal">取 消</button>
+		<button type="submit" class="btn btn-primary">设 置</button>
+	</div>
+	</form>
+</div>
+
+
+<!-- 预览/输出设置 -->
+<div id="cubie_modal_output" class="cubie modal fade cubie-modal cubie-modal-perferences" style="display:none;">
+	<form method="post" action="#" autocomplete="off" class="form-horizontal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h3>预览/输出设置</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row-fluid">
+			<fieldset>
+				<legend>层叠关系</legend>
+				<div class="input-prepend cubie-field">
+					<span class="add-on">布局z-index</span>
+					<input id="layout_zindex" name="layout_zindex" type="text" class="input-small" autocomplete="off" />
+				</div>
+				<span class="help-inline">值越大，越不容易被遮挡</span>
+				<hr />
+				<div class="input-prepend cubie-field">
+					<span class="add-on">背景z-index</span>
+					<input id="bg_zindex" name="bg_zindex" type="text" placeholder="缺省为-1" class="input-small" value="-1" autocomplete="off"  />
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>文件</legend>
+				<div class="input-prepend cubie-field">
+					<span class="add-on">发布文件后缀</span>
+					<input name="file_suffix" type="text" class="input-small" value="shtml" autocomplete="off" placeholder="缺省为shtml"  />
+				</div>
+				<span class="help-inline">发布时生效，预览时无效（注意:不含.）</span>
+				<hr />
+				<label class="checkbox inline">
+					<input type="checkbox" name="css_lnk" value="1"> 生成外链CSS文件
+				</label>
+				<label class="checkbox inline">
+					<input type="checkbox" name="js_lnk" value="1"> 生成外链JS文件
+				</label>
+			</fieldset>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn" data-dismiss="modal">取 消</button>
+		<button type="submit" class="btn btn-primary">设 置</button>
+	</div>
+	</form>
+</div>
+
+
+<!-- 编辑全局HTML/CSS/Javascript -->
+<div id="cubie_modal_global_html" class="cubie modal fade cubie-modal cubie-modal-html" style="display:none;">
+	<form method="post" action="#" autocomplete="off" class="form-horizontal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h3>编辑全局HTML/CSS/Javascript</h3>
+	</div>
+	<div class="modal-body">
+		<fieldset>
+			<legend>HTML</legend>
+			<div class="row-fluid">
+				<textarea name="html" rows="6" class="span12"></textarea>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>CSS</legend>
+			<div class="row-fluid">
+				<textarea name="css" rows="6" class="span12"></textarea>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Javascript</legend>
+			<div class="row-fluid">
+				<textarea name="js" rows="6" class="span12"></textarea>
+			</div>
+		</fieldset>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn" data-dismiss="modal">取 消</button>
+		<button type="submit" class="btn btn-primary">保 存</button>
+	</div>
+	</form>
+</div>
+
+
+<!-- 区块属性设置模板 -->
+<div id="cubie_modal_block_tpl" class="cubie modal cubie-modal cubie-modal-block" style="display:none;">
+	<form method="post" action="#" autocomplete="off" class="form-horizontal">
+	<div class="modal-header">
+		<h3 class="js-title">属性设置</h3>
+	</div>
+	<div class="modal-body">
+		<input type="hidden" name="guid" />
+		<fieldset>
+			<legend>位置（PX，仅作布局参考，最终生成时无效）</legend>
+			<div class="input-prepend cubie-field">
+				<span class="add-on">X</span>
+				<input name="x" type="text" class="input-mini" />
+			</div>
+			<div class="input-prepend cubie-field">
+				<span class="add-on">Y</span>
+				<input name="y" type="text" class="input-mini" />
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>尺寸（PX）</legend>
+			<div class="input-prepend cubie-field">
+				<span class="add-on">宽度</span>
+				<input name="width" type="text" class="input-mini span2" placeholder="0表示自适应" />
+			</div>
+			<div class="input-prepend cubie-field">
+				<span class="add-on">高度</span>
+				<input name="height" type="text" class="input-mini span2" placeholder="0表示自适应" />
+			</div>
+		</fieldset>
+		<button class="btn btn-mini btn-inverse js-reset" type="button">恢复至模板默认值</button>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary">设 置</button>
+	</div>
+	</form>
+</div>
+
+
+<!-- 组件特性设置面板模版 -->
+<div id="cubie_modal_module_tpl" class="cubie modal cubie-modal cubie-modal-module" style="display:none;">
+	<form method="post" action="#" autocomplete="off" class="form-horizontal">
+	<div class="modal-header">
+		<!-- <button type="button" class="close js-close">&times;</button> -->
+		<i class="icon-resize-small js-fold" title="折叠"></i>
+		<h3 class="js-title">组件特性面板</h3>
+	</div>
+	<div class="modal-body"></div>
+	<div class="modal-footer">
+		<!-- <button type="button" class="btn js-close">取 消</button> -->
+		<button type="submit" class="btn btn-primary">确 定</button>
+	</div>
+	</form>
+</div>
+
+
+<!-- 模拟项目模板布局, 使用thinkphp注释,防止生成时产生多余的节点 -->
+<div id="cubie_layout_body" class="cubie-layout-body">
+	{// 布局可编辑区域,需插入到项目模板body下 }
+	<eq name="project.draft" value="1">
+		{$project.layout}
+	<else />
+		<div id="cubie_layout_wrapper" class="cubie-layout-wrapper cubie-layout-gridline cubie-droppable"></div>
+	</eq>
+	
+	{// 布局模板衬底 }
+	<iframe id="cubie_layout_tpl_substrate" class="cubie-layout-tpl-substrate cubie-redundant-dom" src="/index.php/Project/layout/action/tpl_substrate/id/{$project.id}" frameborder="0" scrolling="no"></iframe>
+
+	{// 十字坐标 }
+	<div id="cubie_coordinate_x" class="cubie-coordinate cubie-coordinate-x cubie-redundant-dom"></div>
+	<div id="cubie_coordinate_y" class="cubie-coordinate cubie-coordinate-y cubie-redundant-dom"></div>
+</div>
+
+</body>
+</html>

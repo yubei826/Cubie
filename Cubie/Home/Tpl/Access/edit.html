@@ -1,0 +1,152 @@
+<include file="Public:header" />
+		
+<div class="container">
+	<div class="row">
+		<if condition="$Think.const.ACTION_NAME eq 'add'">
+			{:show_breadcrumb()}
+		<else />
+			{:show_breadcrumb('编辑用户')}
+		</if>
+
+		<form id="frm" name="frm" method="post" action="/index.php/Access/{$Think.const.ACTION_NAME}" autocomplete="off" class="form-horizontal">
+			<input type="hidden" name="id" value="{$user.id}" />
+			<div class="control-group">
+				<label class="control-label" for="account">账号：</label>
+				<div class="controls">
+					<input id="account" name="account" type="text" placeholder="1-20个字符" value="{$user.account}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="password"><if condition="$Think.const.ACTION_NAME eq 'edit'">新</if>密码：</label>
+				<div class="controls">
+					<input id="password" name="password" type="password" placeholder="1-20个字符" />
+					<if condition="$Think.const.ACTION_NAME eq 'edit'">
+					<span class="help-inline">留空表示不更改密码</span>
+					</if>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="confirm_password">确认密码：</label>
+				<div class="controls">
+					<input id="confirm_password" name="confirm_password" type="password" placeholder="1-20个字符" />
+					<if condition="$Think.const.ACTION_NAME eq 'edit'">
+					<span class="help-inline">留空表示不更改密码</span>
+					</if>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary"><if condition="$Think.const.ACTION_NAME eq 'add'">新 建<else />更 新</if></button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<include file="Public:js_validate" />
+<script>
+$(function() {
+
+	<if condition="$Think.const.ACTION_NAME eq 'add'">
+	$.validator.addMethod('checkPassword', function(value, element) {
+		var password = $.trim($('#password').val());
+		var confirmPassword = $.trim($('#confirm_password').val());
+
+		if (password && confirmPassword) {
+			if (password != confirmPassword) {
+				return false;
+			}
+
+			// validator.showErrors({
+			// 	password: '',
+			// 	confirm_password: ''
+			// });
+
+			$('#password').next('.error').remove();
+			$('#confirm_password').next('.error').remove();
+		}
+		
+		return true;
+	}, '两次输入的密码不一样');
+	var validator = $('#frm').validate({
+		errorElement: 'span',
+		rules: {
+			account: {
+				required: true
+			},
+			password: {
+				required: true,
+				checkPassword: true
+			},
+			confirm_password: {
+				required: true,
+				checkPassword: true
+			}
+		},
+		messages: {
+			account: {
+				required: '请输入账号'
+			},
+			password: {
+				required: '请输入密码',
+
+			},
+			confirm_password: {
+				required: '请输入确认密码'
+			}
+		}
+	});
+	<else />
+	$.validator.addMethod('checkPassword', function(value, element) {
+		var password = $.trim($('#password').val());
+		var confirmPassword = $.trim($('#confirm_password').val());
+
+		if (password || confirmPassword) {
+			if (password != confirmPassword) {
+				return false;
+			}
+
+			// validator.showErrors({
+			// 	password: '',
+			// 	confirm_password: ''
+			// });
+
+			$('#password').next('.error').remove();
+			$('#confirm_password').next('.error').remove();
+		}
+		
+		return true;
+	}, '两次输入的密码不一样');
+	var validator = $('#frm').validate({
+		errorElement: 'span',
+		rules: {
+			account: {
+				required: true
+			},
+			password: {
+				checkPassword: true
+			},
+			confirm_password: {
+				checkPassword: true
+			}
+		},
+		messages: {
+			account: {
+				required: '请输入账号'
+			},
+			password: {
+				required: '请输入密码',
+
+			},
+			confirm_password: {
+				required: '请输入确认密码'
+			}
+		}
+	});
+	</if>
+
+
+});
+</script>
+
+<include file="Public:footer" />

@@ -1,0 +1,100 @@
+<include file="Public:header" />
+
+<include file="Public:js_validate" />
+<script>
+function selAll(type) {
+	var status = !!type;
+	$('.js-cbx-id').each(function() {
+		$(this).prop('checked', status);
+	});
+}
+
+function checkDel() {
+	var selectedLen = $('.js-cbx-id:checked').length;
+	if (selectedLen < 1) {
+		$.showTips('请选择要删除的日志');
+	} else {
+		$.showConfirm('确定删除所选的日志?', function() {
+			$('#frm_log').submit();
+		});
+	}
+}
+</script>
+		
+<div class="container">
+	<div class="row">
+		<div class="span4">
+			{:show_breadcrumb()}
+		</div>
+		<div class="span8 text-right">
+			<form id="frm" name="frm" method="get" action="/index.php/Log/" autocomplete="off" class="form-search">
+				<input id="user" name="user" type="text" placeholder="用户名" value="{$user}" class="span3" />
+				<input id="project_id" name="project_id" type="text" placeholder="项目ID" value="{$project_id}" class="span2" />
+				<button type="submit" class="btn">查 询</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="row">
+		<table class="table">
+			<form id="frm_log" name="frm_log" method="post" action="/index.php/Log/del" autocomplete="off">
+			<thead>
+			<tr>
+				<th>选择</th>
+				<th>用户名</th>
+				<th>项目ID</th>
+				<th>操作</th>
+				<th>时间</th>
+			</tr>
+			</thead>
+			
+			
+			<if condition="$count gt 0">
+			
+			<tbody>
+			
+			<foreach name="log" item="vo">
+			<tr>
+				<td><input type="checkbox" name="id[]" class="checkbox js-cbx-id" value="{$vo.id}" /></td>
+				<td>{$vo.user}</td>
+				<td><a href="/index.php/Project/check/id/{$vo.project_id}/" target="_blank">{$vo.project_id}</a></td>
+				<td>{$vo.pub}</td>
+				<td>{$vo.create_time}</td>
+			</tr>
+			</foreach>	
+			
+			</tbody>
+			<tfoot>	
+			<tr>
+				<td colspan="5">
+					<div class="row">
+						<div class="span4 btn-group">
+							<a href="javascript:selAll(1);" class="btn">全选</a>
+							<a href="javascript:selAll(0);" class="btn">全不选</a>
+							
+							
+							<if condition="hasAccess('Access', 'roleuser')">
+							<a href="javascript:checkDel();" class="btn btn-danger">删除</a>
+							</if>
+						</div>
+
+						<div class="span8 page">{$page}</div>
+					</div>
+				</td>
+			</tr>
+			</tfoot>	
+			
+			<else />
+			<tr>
+				<td colspan="6">
+					<div class="alert text-center">暂无发布日志</div>
+				</td>
+			</tr>
+			</if>
+			</form>
+			
+		</table>
+	</div>
+</div>
+
+<include file="Public:footer" />

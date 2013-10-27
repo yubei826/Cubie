@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Cubie {$APP.Version}</title>
+<css href="/Public/Home/Css/bootstrap/css/bootstrap.min.css" />
+<css href="/Public/Home/Css/bootstrap/css/bootstrap-responsive.min.css" />
+<include file="Public:css_app" />
+<js href="/Public/Home/Js/jquery-2.0.3.min.js" />
+<js href="/Public/Home/Css/bootstrap/js/bootstrap.min.js" />
+<include file="Public:js_jqueryui" />
+</head>
+
+<body>
+<!-- app.js要后置到body内初始化,防止Modal初始化DOM时失败 -->
+<include file="Public:js_app" />
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a class="brand" href="/">Cubie <sup style="font-size:10px;">{$APP.Version}</sup></a>
+			<div class="nav-collapse collapse">
+				<ul class="nav">
+					<if condition="hasAccess('Index')">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{$APP.NAV.Index.NAME}<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<!-- <li><a href="/index.php/Project">{$APP.NAV.Index.SUB_NAV.index}</a></li> -->
+							<li <if condition="!hasAccess('Index', 'editing')">class="disabled"</if>><a href="/index.php/Index/editing">{$APP.NAV.Index.SUB_NAV.editing}</a></li>
+							<li <if condition="!hasAccess('Index', 'tocheck')">class="disabled"</if>><a href="/index.php/Index/tocheck">{$APP.NAV.Index.SUB_NAV.tocheck}</a></li>
+						</ul>
+					</li>
+					</if>
+
+					<if condition="hasAccess('Project')">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{$APP.NAV.Project.NAME}<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li <if condition="!hasAccess('Project', 'index')">class="disabled"</if>><a href="/index.php/Project">{$APP.NAV.Project.SUB_NAV.index}</a></li>
+							<li <if condition="!hasAccess('Project', 'add')">class="disabled"</if>><a href="/index.php/Project/add">{$APP.NAV.Project.SUB_NAV.add}</a></li>
+							<li class="divider"></li>
+							<li <if condition="!hasAccess('Project', 'category')">class="disabled"</if>><a href="/index.php/Project/category">{$APP.NAV.Project.SUB_NAV.category}</a></li>
+							<li <if condition="!hasAccess('Project', 'addCategory')">class="disabled"</if>><a href="/index.php/Project/addCategory">{$APP.NAV.Project.SUB_NAV.addCategory}</a></li>
+						</ul>
+					</li>
+					</if>
+
+					<if condition="hasAccess('Build')">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{$APP.NAV.Build.NAME}<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li <if condition="!hasAccess('Build', 'index')">class="disabled"</if>><a href="/index.php/Build">{$APP.NAV.Build.SUB_NAV.index}</a></li>
+							<li <if condition="!hasAccess('Build', 'add')">class="disabled"</if>><a href="/index.php/Build/add">{$APP.NAV.Build.SUB_NAV.add}</a></li>
+							<li class="divider"></li>
+							<li <if condition="!hasAccess('Build', 'module')">class="disabled"</if>><a href="/index.php/Build/module">{$APP.NAV.Build.SUB_NAV.module}</a></li>
+							<li <if condition="!hasAccess('Build', 'addModule')">class="disabled"</if>><a href="/index.php/Build/addModule">{$APP.NAV.Build.SUB_NAV.addModule}</a></li>
+						</ul>
+					</li>
+					</if>
+
+					<if condition="hasAccess('Log')">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{$APP.NAV.Log.NAME} <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li <if condition="!hasAccess('Log', 'index')">class="disabled"</if>><a href="/index.php/Log">{$APP.NAV.Log.SUB_NAV.index}</a></li>
+						</ul>
+					</li>
+					</if>
+
+					<if condition="hasAccess('Access')">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{$APP.NAV.Access.NAME} <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li class="nav-header">用户管理</li>
+							<li <if condition="!hasAccess('Access', 'index')">class="disabled"</if>><a href="/index.php/Access">{$APP.NAV.Access.SUB_NAV.index}</a></li>
+							<li <if condition="!hasAccess('Access', 'add')">class="disabled"</if>><a href="/index.php/Access/add">{$APP.NAV.Access.SUB_NAV.add}</a></li>
+							<li class="divider"></li>
+							<li class="nav-header">角色管理</li>
+							<li <if condition="!hasAccess('Access', 'role')">class="disabled"</if>><a href="/index.php/Access/role">{$APP.NAV.Access.SUB_NAV.role}</a></li>
+							<li <if condition="!hasAccess('Access', 'addRole')">class="disabled"</if>><a href="/index.php/Access/addRole">{$APP.NAV.Access.SUB_NAV.addRole}</a></li>
+							<li class="divider"></li>
+							<li class="nav-header">节点管理</li>
+							<li <if condition="!hasAccess('Access', 'node')">class="disabled"</if>><a href="/index.php/Access/node">{$APP.NAV.Access.SUB_NAV.node}</a></li>
+							<li <if condition="!hasAccess('Access', 'addNode')">class="disabled"</if>><a href="/index.php/Access/addNode">{$APP.NAV.Access.SUB_NAV.addNode}</a></li>
+						</ul>
+					</li>
+					</if>
+
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">帮助 <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<eq name="APP.Super" value="1">
+							<li><a href="/index.php/Public/maintain">系统维护</a></li>
+							</eq>
+							
+							<li><a href="#cubie_modal_about" data-toggle="modal">关于Cubie</a></li>
+						</ul>
+					</li>
+				</ul>
+				<p class="navbar-text pull-right">
+					{$APP.User} <eq name="APP.Super" value="1">(超级管理员)</eq> | <a href="/index.php/Logout" class="navbar-link">注销</a>
+				</p>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="cubie_modal_about" class="modal fade hide">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3>关于Cubie</h3>
+		</div>
+		<div class="modal-body">
+			<p>Cubie, [kjuːbiə], 组件化构建平台</p>
+			<p>Version: {$APP.Version}</p>
+			<p>Author: <a href="http://www.zawaliang.com/" target="_blank">Zawa</a> / jwall@foxmail.com</p>
+			<p>Copyright © 2013<?php $year = date('Y'); if ($year > 2013) {echo '-' . $year;}?> Zawa and others</p>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal">确 定</button>
+		</div>
+</div>

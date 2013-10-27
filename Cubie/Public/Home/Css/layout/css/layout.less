@@ -1,0 +1,664 @@
+/**
+* 布局样式
+* @author: Zawa
+*
+* modal为1050，modal遮罩为1040; 顶部导航为1030;
+* z-index约定最大为1000
+*
+* css default stylesheet
+* http://www.iecss.com/webkit-r61376.css
+* http://trac.webkit.org/export/156456/trunk/Source/WebCore/css/html.css
+* CSS2.1 User Agent Style Sheet Defaults http://css-class.com/test/css/defaults/UA-style-sheet-defaults.htm
+*/
+
+::-webkit-scrollbar {width: 6px; height: 6px; overflow: visible;}
+::-webkit-scrollbar-thumb {background-clip: padding-box; background-color: rgba(0,0,0,.5); border-radius: 6px; border-width: 1px 1px 1px 6px; min-height: 18px;}
+::-webkit-scrollbar-button {height: 0; width: 0;}
+::-webkit-scrollbar-track {background-clip: padding-box; border:solid transparent; border-width:0 0 0 4px;}
+::-webkit-scrollbar-corner {background:transparent;}
+
+/* CodeMirror编辑器滚动条样式 */
+.CodeMirror ::-webkit-scrollbar-thumb {background-color: rgba(160,160,160,.5);}
+
+
+html {
+	padding: 50px 0 0 0 !important;
+}
+/* 使用ID选择器加强权重 */
+body#cubie_body {
+	/* 浏览器一般默认有8px的margin值,这里强制都设置为0;意味着对实际布局编辑可能存在影响,所以建议布局都有css reset */
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: auto !important;
+	/*
+	 * http://www.w3school.com.cn/cssref/pr_background-origin.asp
+	 * 以html作为padding容器,使背景图相对html做定位,使项目定义的背景图刚好与cubie-layout-body重合
+	 */
+	-webkit-background-origin:content-box;
+	background-origin:content-box;
+}
+
+/* 所有动态插入到body内的一级元素样式 */
+body#cubie_body > :not(.cubie-layout-body) {
+	font-size: 12px;
+}
+
+/* jQueryUI样式 */
+/*body#cubie_body [class^="ui-"],
+body#cubie_body [class*=" ui-"] {
+	font-size: 12px;
+}*/
+
+
+
+.user-select {
+	-moz-user-select: text;
+	-webkit-user-select: text;
+	-ms-user-select: text;   /*IE10*/
+	-khtml-user-select: text;
+	user-select: text;
+}
+.no-user-select {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;   /*IE10*/
+	-khtml-user-select: none;
+	user-select: none;
+}
+
+
+.cubie {
+	/* icon&按钮选中 */
+	.cubie-icon-on {
+		background-color: #19BCFF;
+	}
+	.cubie-btn-on,
+	.cubie-btn-on:hover {
+		background-color: #007DCC;
+		color: #FFF;
+		text-shadow: none;
+		background-image: none;
+	}
+
+	/* 插件trigger */
+	fieldset .cubie-plugin-trigger {
+		cursor: pointer;
+		margin-right: 15px;
+	}
+}
+
+
+/* toask */
+.cubie-layout-toast {
+	padding: 8px 35px 8px 14px;
+	margin-bottom: 20px;
+	background-color: #FFFF8B;
+	border: 1px solid #C9C8C7;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+
+	position: fixed;
+	top: 2px;
+	left: 50%;
+	z-index: 1031;
+	margin: 0 auto;
+	font-size: 12px;
+	color: #333;
+}
+
+
+/* 菜单 */
+.cubie-menu {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	height: 40px;
+	line-height: 20px;
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	width: 1434px;
+	z-index: 1021; /* 比.cubie-modal大,但需<1030 */
+	border-bottom: 1px solid #ddd;
+	background-color: #fff;
+
+
+	.cubie-menu-logo {
+		position: absolute;
+		left: 10px;
+		top: 10px;
+		font-size: 20px;
+		font-weight: bold;
+		color: #DADADA;
+		text-decoration: none;
+	}
+	.cubie-menu-logo:hover {
+		color: #333;
+		text-decoration: none;
+	}
+	.cubie-menu-logo  sup {
+		font-size: 12px;
+		font-weight: normal;
+		margin-left: 5px;
+	}
+	.cubie-menu-inner {
+		width: 1000px;
+		height: 40px;
+		margin: 0 auto;
+	}
+	.cubie-menu-main {
+		float: left;
+	}
+	.cubie-menu-nav {
+		float: left;
+		left: 0px;
+		list-style-image: none;
+		list-style-position: outside;
+		list-style-type: none;
+		margin-bottom: 0px;
+		margin-left: 0px;
+		margin-right: 10px;
+		margin-top: 0px;
+		padding-bottom: 0px;
+		padding-left: 0px;
+		padding-right: 0px;
+		padding-top: 0px;
+		position: relative;
+	}
+	.cubie-menu-nav li {
+		float: left;
+		list-style-image: none;
+		list-style-position: outside;
+		list-style-type: none;
+		width: 78px;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+	}
+	.cubie-menu-nav li.cubie-active {
+		background-color: #ededed;
+	}
+	.cubie-menu-nav a {
+		color: #777;
+		text-decoration: none;
+	}
+	.cubie-menu-nav a:hover {
+		color: #333;
+	}
+	.cubie-caret {
+		display: inline-block;
+		width: 0;
+		height: 0;
+		vertical-align: top;
+		border-top: 4px solid #777;
+		border-right: 4px solid transparent;
+		border-left: 4px solid transparent;
+		content: "";
+		margin-top: 18px;
+		color: #777;
+	}
+	.cubie-dropdown-menu {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		z-index: 1000;
+		display: none;
+		float: left;
+		min-width: 160px;
+		padding: 5px 0;
+		margin: 2px 0 0;
+		list-style: none;
+		background-color: #ffffff;
+		border: 1px solid #ccc;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		-webkit-border-radius: 6px;
+		-moz-border-radius: 6px;
+		border-radius: 6px;
+		-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+		-moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+		-webkit-background-clip: padding-box;
+		-moz-background-clip: padding;
+		background-clip: padding-box;
+	}
+	.cubie-dropdown-menu:before {
+		position: absolute;
+		top: -7px;
+		left: 9px;
+		display: inline-block;
+		border-right: 7px solid transparent;
+		border-bottom: 7px solid #ccc;
+		border-left: 7px solid transparent;
+		border-bottom-color: rgba(0, 0, 0, 0.2);
+		content: '';
+	}
+	.cubie-dropdown-menu:after {
+		position: absolute;
+		top: -6px;
+		left: 10px;
+		display: inline-block;
+		border-right: 6px solid transparent;
+		border-bottom: 6px solid #ffffff;
+		border-left: 6px solid transparent;
+		content: '';
+	}
+	.cubie-dropdown-menu li {
+		width: 100%;
+		height: 28px;
+		line-height: 28px;
+		text-align: left;
+	}
+	.cubie-dropdown-menu li  a {
+		display: block;
+		padding: 3px 20px;
+		clear: both;
+		font-weight: normal;
+		line-height: 20px;
+		color: #333333;
+		white-space: nowrap;
+	}
+	.cubie-dropdown-menu .cubie-divider {
+		*width: 100%;
+		height: 1px;
+		margin: 9px 1px;
+		*margin: -5px 0 5px;
+		overflow: hidden;
+		background-color: #e5e5e5;
+		border-bottom: 1px solid #ffffff;
+	}
+	.cubie-dropdown-menu > li > a:hover,
+	.cubie-dropdown-menu > li > a:focus {
+		color: #ffffff;
+		text-decoration: none;
+		background-color: #0081c2;
+		background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+		background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+		background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+		background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+	}
+	.cubie-dropdown-menu li.disabled a {
+		color: #999;
+		cursor: default;
+	}
+	.cubie-dropdown-menu > li.disabled > a:hover,
+	.cubie-dropdown-menu > li.disabled > a:focus {
+		background-color: #fff;
+		background-image: none;
+	}
+	.cubie-menu-sub {
+		float: right;
+		width: 300px;
+		position: relative;
+		text-align: right;
+		padding-top: 8px;
+	}
+	.cubie-menu-sub  [class*="icon-"] {
+		cursor: pointer;
+	}
+	.cubie-menu-tips {
+		position: absolute;
+		right: 80px;
+		top: 0;
+		line-height: 14px;
+	}
+	.cubie-menu-tips .cubie-menu-hints {
+		color: #999;
+	}
+
+}
+
+
+
+/* 侧边栏 */
+.cubie-sidebar-toggle {
+	position: fixed;
+	z-index: 999;
+	width: 3px;
+	height: 100%;
+	left: 0;
+	top: 50px;
+	background-color: #6FB737;
+}
+.cubie-sidebar-wrapper {
+	position: fixed;
+	top: 50px;
+	left: 0;
+	z-index: 999;
+	width: 210px; /* 组件缩略图 , 使用16:9; 约等于180x100 */
+	height: 90%;
+	border: 1px solid #171717;
+	background-color: #454545;
+	padding: 10px;
+	border-radius: 0 5px 5px 0;
+
+	.cubie-module-category {
+		position: absolute;
+		top: 10px;
+		right: -32px;
+		margin: 0;
+		padding: 0;
+		text-align: center;
+		list-style: none;
+		font-size: 12px;
+	}
+	.cubie-module-category .cubie-module-category-close {
+		margin-bottom: 10px;
+	}
+	.cubie-module-category li {
+		background-color: #555555;
+		color: #fff;
+		width: 18px;
+		padding: 5px 3px;
+		margin-bottom: 1px;
+		border-left: 1px solid #171717;
+		border-radius: 0 4px 4px 0;
+		cursor: pointer;
+		line-height: 16px;
+	}
+	.cubie-module-category .on {
+		width: 22px;
+		padding-right: 5px;
+		background-color: #454545;
+		border: 1px solid #171717;
+		border-left: 1px solid #454545;
+		font-weight: bold;
+	}
+	.cubie-module-list {
+		height: 100%;
+		overflow: auto;
+	}
+	.cubie-module-list ul {
+		padding: 1px;
+		list-style: none;
+		width: 180px;
+		margin: 0 auto;
+	}
+	.cubie-module-list li {
+		position: relative;
+		outline: 1px solid #333;
+		cursor: move;
+		width: 90px;
+		height: 90px;
+		overflow: hidden;
+		float: left;
+	}
+	.cubie-module-name {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		text-align: center;
+		line-height: 20px;
+		font-size: 12px;
+		background-color: #000;
+		color: #fff;
+		opacity: 0.7;
+	}
+	.cubie-module-list img {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+
+
+
+/* 调整modal尺寸 */
+.cubie-modal {
+	z-index: 1020; /* modal为1050，modal遮罩为1040; 顶部导航为1030; 考虑到面板里的CodeMirror全屏模式下被导航遮挡问题,这里设置z-index与导航相同 */ 
+
+	hr {
+		margin: 20px 0;
+		border: 0;
+		border-top: 1px solid #eeeeee;
+		border-bottom: 1px solid #ffffff;
+	}
+
+	/* 防止布局Modal内的CodeMirror全屏时被导航遮挡 */
+	.CodeMirror-fullscreen {
+		top: 40px;
+	}
+}
+
+.cubie-modal-project { /*  项目属性面板 */
+	width: 740px;
+	margin-left: -370px;
+
+	.modal-body {
+		max-height: 450px;
+	}
+}
+.cubie-modal-perferences { /*  布局设置/预览输出面板 */
+	width: 740px;
+	margin-left: -370px;
+
+	.modal-body {
+		max-height: 450px;
+	}
+}
+.cubie-modal-module { /* 组件面板 */
+	width: 600px;
+	margin-left: -300px;
+	/*z-index: 1020;*/
+}
+.cubie-modal-block {
+	z-index: 1020;
+}
+.cubie-modal-html { /* 全局html/css/js面板 */
+	width: 740px;
+	margin-left: -370px;
+
+	.modal-body {
+		max-height: 450px;
+	}
+}
+
+/* 背景缩略图 */
+.cubie .cubie-bg-thumbnails-wrapper {
+	ul {
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		position: relative;
+		list-style: none;
+		width: 27%;
+		float: left;
+		padding: 3px;
+		margin: 15px;
+		border: 1px dotted #CCC;
+		cursor: move;
+	}
+	li img {
+		width: 100%;
+	}
+	li  .icon-remove {
+		position: absolute;
+		top: -12px;
+		right: -12px;
+		cursor: pointer;
+	}	
+}
+
+
+.cubie-date[readonly] {
+	cursor: default;
+}
+
+
+/* ------.cubie-layout-body布局样式--------- */
+
+
+
+/* 侧边栏拖拽的组件helper */
+.cubie-module-draggable {
+	z-index: 1000;
+	width: 90px;
+	height: 90px;
+	background-color: #F9A624;
+	overflow: hidden;
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+
+.cubie-layout-body {
+	position: relative !important;
+	z-index: 0 !important;
+	margin: 0 0 80px 0 !important;
+	background: url(/Public/Home/Img/transparent.png) repeat left top !important;
+	overflow-x: auto !important;
+	overflow-y: hidden !important;
+	width: 100%;
+	height: 800px; /* 初始化高度 */
+
+	.cubie-layout-tpl-substrate { /* 布局模板衬底 */
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: -1;
+		width: 100%;
+		/*零宽高的 IFRAME 元素的实际尺寸在不同浏览器中有差异 http://www.w3help.org/zh-cn/causes/RD1003*/
+		border-width: 0;
+		border: none;
+		margin: 0;
+		padding: 0;
+	}
+	.cubie-layout-wrapper {
+		z-index: 901;
+		overflow: hidden;
+	}
+	.cubie-layout-gridline {
+		background: url(/Public/Home/Img/gridline.png) repeat left top;
+	}
+
+	/* 鼠标十字坐标 */
+	.cubie-coordinate {
+		position: absolute;
+		z-index: 900;
+		background-color: #19BCFF;
+		left: 0;
+		top: 0;
+	}
+	.cubie-coordinate-x {
+		width: 100%;
+		height: 1px;
+	}
+	.cubie-coordinate-y {
+		width: 1px;
+		height: 100%;
+	}
+
+	/* 组件 */
+	.cubie-module {
+		z-index: 2; /* 所有组件缺省z-index为2，拖动时设为3，使之聚焦在最上; 而区块缺省z-index为0, 区块hover时为1 */
+		overflow: hidden;
+	}
+	.cubie-module:hover {
+		outline: 1px solid #00A8E2;
+		box-shadow: 2px 2px 20px #00A8E2;
+		cursor: move;
+		z-index: 3;
+	}
+	.cubie-module-focus {
+		outline: 1px solid #00A8E2;
+	}
+	.cubie-module .cubie-module-opacity {
+		position: absolute;
+		z-index: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.cubie-module .cubie-module-editarea {
+		position: absolute;
+		z-index: 1;
+		width: 100%;
+		height: 100%;
+		word-wrap: break-word;
+	}
+	/* 组件内iframe处理,防止不可点击拖动 */
+	.cubie-module .cubie-module-iframefix {
+		position: absolute;
+		z-index: 2;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* 编辑状态 */
+	.cubie-module-edit,
+	.cubie-module-edit:hover {
+		outline: 1px solid #ddc086;
+		box-shadow: 2px 2px 100px #F7C754;
+	}
+	/*.cubie-module-edit .cubie-module-opacity, 
+	.cubie-module-edit:hover .cubie-module-opacity {
+		background-color: none;
+	}*/
+	.cubie-module-edit .cubie-module-editarea {
+		cursor: text;
+	}
+	.cubie-module-edit .cubie-module-editarea:focus {
+		/*outline: 1px solid red;*/ /* contenteditable=true时,统一设置不生效, ref: http://starikovs.com/2010/09/18/contenteditable-outline-style-webkit/; */
+		outline: none; /* 禁用浏览器对contenteditable=true的元素自动添加的outline */
+	}
+
+	/* 区块布局 */
+	.cubie-block {
+		outline: 1px dashed #CCC;
+		z-index: 0;  /* 所有组件缺省z-index为2，拖动时设为3，使之聚焦在最上; 而区块缺省z-index为0, 区块hover时为1 */
+	}
+	.cubie-block:hover {
+		outline: 1px dashed #666;
+		z-index: 1;
+	}
+	.cubie-block .cubie-block-opacity {
+		position: absolute;
+		z-index: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #FFF; /*D6935E*/
+		opacity: 0.5;
+		text-align: center;
+		font-size: 12px;
+		line-height: 20px;
+		color: #000;
+	}
+	.cubie-block .cubie-block-editarea {
+		position: absolute;
+		z-index: 1;
+		width: 100%;
+		height: 100%;
+	}
+	.cubie-block-focus,
+	.cubie-block-focus:hover {
+		outline: 1px dashed #EB1D82;
+		cursor: move;
+	}
+
+	/* 重设jQuery UI不可用时的透明度 */
+	.ui-state-disabled,
+	.ui-draggable-disabled {
+		opacity: 1;
+	}
+	.ui-state-disabled {
+		/*background-image: inherit;*/
+	}
+
+	/* CKEditor的箭头样式 */
+	.cubie-module .cke_editable[contenteditable="false"]:hover {
+		cursor: move;
+	}
+
+	/* droppable时的区域布局样式 */
+	.cubie-droppable-hover>.cubie-block-opacity {
+		background-color: #9DD6C5;
+		opacity: 0.8;
+	}
+}

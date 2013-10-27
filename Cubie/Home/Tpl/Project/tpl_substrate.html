@@ -1,0 +1,87 @@
+{$html}
+
+<!-- 由于衬底输出时会输出基准路径,因此以下资源需要制定域名,防止加载错误 -->
+<js href="{:C('HTTP_HOST')}/Public/Home/Js/jquery-2.0.3.min.js" />
+<include file="Public:js_contextMenu" />
+<script type="text/javascript">
+$(function() {
+	var api = parent.Cubie_Layout_API;
+	var data = {};
+	var body = $(document.body);
+
+	body.css({
+		'overflow': 'hidden'
+	});
+
+	// 模板尺寸
+	data.width = Math.abs(parseInt(body.attr('data-cubie-width'), 10) || 0);
+	data.height = Math.abs(parseInt(body.attr('data-cubie-height'), 10) || 0);
+
+	// 布局方式,插入还是全局编辑
+	var blocks = body.find('.js-cubie-block'),
+		blocksLen = blocks.length;
+
+	// 智能标记插入式编辑区
+	var blocksData = {};
+	var blocksNum = 0;
+	if (blocksLen > 0) {
+		body.append('<style>.cubie-block:after{content: attr(data-cubie-block-content);}</style>');
+		$.each(blocks, function(k, v) {
+			v = $(v);
+
+			var w = v.attr('data-cubie-width') || v.width(), // 0表示可设宽度,其他表示固定宽度,不支持百分比; 当没设置时取计算值
+				h = v.attr('data-cubie-height') || v.height(), // 0表示可设高度,其他表示固定高度,不支持百分比; 当没设置时取计算值
+				guid = v.attr('data-cubie-guid'),
+				key = 'B' + k, // 主要用于展示识别, GUID不随内容改变而改变,而key值是可能随内容改变而改变的
+				content = '区块' + key+ '[' + (w == 0 ? '变宽' : '定宽') + ',' + (h == 0 ? '变高' : '定高') + '](' + (w == 0 ? '100%' : w) + 'x' + (h == 0 ? '100%' : h) + ')';
+
+			w = Math.abs(parseInt(w, 10));
+			h = Math.abs(parseInt(h, 10));
+
+			// 宽高自适应,可能存在不定宽高时较难看的情况
+			v.attr('data-cubie-block-content', content)
+				.addClass('cubie-block')
+				.css({
+					// 自适应时置空,利用自拉伸
+					'width': (w == 0 ? '' : w),
+					'height': (h == 0 ? '' : h),
+					'font-size': '12px',
+					'line-height': (h || 20) + 'px',
+					'background': '#FFEC83', // FFEC83
+					'border': 'none',
+					'outline': '1px solid red', // 添加outline,防止多个连续区块区分不了
+					'text-align': 'center',
+					'opacity': 0.7
+				});
+
+			blocksData[guid] = {
+				block: v,
+				guid: guid,
+				key: key,
+				width: w,
+				height: h,
+				offset: v.offset() // 相对文档根目录
+			};
+			blocksNum++;
+		});	
+	}
+
+	data.blocks = blocksData;
+	data.blocksNum = blocksNum;
+
+	// 父页面回调
+	if (typeof api != 'undefined') {
+		api.ready(data);
+	}
+
+	// 禁止父级右键菜单对于iframe仍然生效的问题
+	$.contextMenu({
+		trigger: 'none',
+		selector: 'body',
+		build: function(trigger, e) {
+			// 动态获取执行句柄
+			return function() {}
+		}
+	});
+});
+</script>

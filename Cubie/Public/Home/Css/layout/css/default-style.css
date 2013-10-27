@@ -1,0 +1,261 @@
+/* 
+为了避免布局区域受bootstrap样式影响,将布局区域标签样式恢复到默认值
+http://www.w3.org/TR/CSS2/sample.html 
+*/
+.cubie-layout-body {
+  /* Begin bidirectionality settings (do not change) */
+
+}
+.cubie-layout-body html,
+.cubie-layout-body address,
+.cubie-layout-body blockquote,
+.cubie-layout-body body,
+.cubie-layout-body dd,
+.cubie-layout-body div,
+.cubie-layout-body dl,
+.cubie-layout-body dt,
+.cubie-layout-body fieldset,
+.cubie-layout-body form,
+.cubie-layout-body frame,
+.cubie-layout-body frameset,
+.cubie-layout-body h1,
+.cubie-layout-body h2,
+.cubie-layout-body h3,
+.cubie-layout-body h4,
+.cubie-layout-body h5,
+.cubie-layout-body h6,
+.cubie-layout-body noframes,
+.cubie-layout-body ol,
+.cubie-layout-body p,
+.cubie-layout-body ul,
+.cubie-layout-body center,
+.cubie-layout-body dir,
+.cubie-layout-body hr,
+.cubie-layout-body menu,
+.cubie-layout-body pre {
+  display: block;
+  unicode-bidi: embed;
+}
+.cubie-layout-body li {
+  display: list-item;
+}
+.cubie-layout-body head {
+  display: none;
+}
+.cubie-layout-body table {
+  display: table;
+}
+.cubie-layout-body tr {
+  display: table-row;
+}
+.cubie-layout-body thead {
+  display: table-header-group;
+}
+.cubie-layout-body tbody {
+  display: table-row-group;
+}
+.cubie-layout-body tfoot {
+  display: table-footer-group;
+}
+.cubie-layout-body col {
+  display: table-column;
+}
+.cubie-layout-body colgroup {
+  display: table-column-group;
+}
+.cubie-layout-body td,
+.cubie-layout-body th {
+  display: table-cell;
+}
+.cubie-layout-body caption {
+  display: table-caption;
+}
+.cubie-layout-body th {
+  font-weight: bolder;
+  text-align: center;
+}
+.cubie-layout-body caption {
+  text-align: center;
+}
+.cubie-layout-body body {
+  margin: 8px;
+}
+.cubie-layout-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+.cubie-layout-body h2 {
+  font-size: 1.5em;
+  margin: 0.75em 0;
+}
+.cubie-layout-body h3 {
+  font-size: 1.17em;
+  margin: 0.83em 0;
+}
+.cubie-layout-body h4,
+.cubie-layout-body p,
+.cubie-layout-body blockquote,
+.cubie-layout-body ul,
+.cubie-layout-body fieldset,
+.cubie-layout-body form,
+.cubie-layout-body ol,
+.cubie-layout-body dl,
+.cubie-layout-body dir,
+.cubie-layout-body menu {
+  margin: 1.12em 0;
+}
+.cubie-layout-body h5 {
+  font-size: .83em;
+  margin: 1.5em 0;
+}
+.cubie-layout-body h6 {
+  font-size: .75em;
+  margin: 1.67em 0;
+}
+.cubie-layout-body h1,
+.cubie-layout-body h2,
+.cubie-layout-body h3,
+.cubie-layout-body h4,
+.cubie-layout-body h5,
+.cubie-layout-body h6,
+.cubie-layout-body b,
+.cubie-layout-body strong {
+  font-weight: bolder;
+}
+.cubie-layout-body blockquote {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+.cubie-layout-body i,
+.cubie-layout-body cite,
+.cubie-layout-body em,
+.cubie-layout-body var,
+.cubie-layout-body address {
+  font-style: italic;
+}
+.cubie-layout-body pre,
+.cubie-layout-body tt,
+.cubie-layout-body code,
+.cubie-layout-body kbd,
+.cubie-layout-body samp {
+  font-family: monospace;
+}
+.cubie-layout-body pre {
+  white-space: pre;
+}
+.cubie-layout-body button,
+.cubie-layout-body textarea,
+.cubie-layout-body input,
+.cubie-layout-body select {
+  display: inline-block;
+}
+.cubie-layout-body big {
+  font-size: 1.17em;
+}
+.cubie-layout-body small,
+.cubie-layout-body sub,
+.cubie-layout-body sup {
+  font-size: 0.83em;
+}
+.cubie-layout-body sub {
+  vertical-align: sub;
+}
+.cubie-layout-body sup {
+  vertical-align: super;
+}
+.cubie-layout-body table {
+  border-spacing: 2px;
+}
+.cubie-layout-body thead,
+.cubie-layout-body tbody,
+.cubie-layout-body tfoot {
+  vertical-align: middle;
+}
+.cubie-layout-body td,
+.cubie-layout-body th,
+.cubie-layout-body tr {
+  vertical-align: inherit;
+}
+.cubie-layout-body s,
+.cubie-layout-body strike,
+.cubie-layout-body del {
+  text-decoration: line-through;
+}
+.cubie-layout-body hr {
+  border: 1px inset;
+}
+.cubie-layout-body ol,
+.cubie-layout-body ul,
+.cubie-layout-body dir,
+.cubie-layout-body menu,
+.cubie-layout-body dd {
+  margin-left: 40px;
+}
+.cubie-layout-body ol {
+  list-style-type: decimal;
+}
+.cubie-layout-body ol ul,
+.cubie-layout-body ul ol,
+.cubie-layout-body ul ul,
+.cubie-layout-body ol ol {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.cubie-layout-body u,
+.cubie-layout-body ins {
+  text-decoration: underline;
+}
+.cubie-layout-body br:before {
+  content: "\A";
+  white-space: pre-line;
+}
+.cubie-layout-body center {
+  text-align: center;
+}
+.cubie-layout-body :link,
+.cubie-layout-body :visited {
+  text-decoration: underline;
+}
+.cubie-layout-body :focus {
+  outline: thin dotted invert;
+}
+.cubie-layout-body BDO[DIR="ltr"] {
+  direction: ltr;
+  unicode-bidi: bidi-override;
+}
+.cubie-layout-body BDO[DIR="rtl"] {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
+.cubie-layout-body *[DIR="ltr"] {
+  direction: ltr;
+  unicode-bidi: embed;
+}
+.cubie-layout-body *[DIR="rtl"] {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+@media print {
+  .cubie-layout-body h1 {
+    page-break-before: always;
+  }
+  .cubie-layout-body h1,
+  .cubie-layout-body h2,
+  .cubie-layout-body h3,
+  .cubie-layout-body h4,
+  .cubie-layout-body h5,
+  .cubie-layout-body h6 {
+    page-break-after: avoid;
+  }
+  .cubie-layout-body ul,
+  .cubie-layout-body ol,
+  .cubie-layout-body dl {
+    page-break-before: avoid;
+  }
+}
+.cubie-layout-body a {
+  color: -webkit-link;
+}
+.cubie-layout-body img {
+  max-width: none;
+}

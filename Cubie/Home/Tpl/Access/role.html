@@ -1,0 +1,69 @@
+<include file="Public:header" />
+
+<script>
+function delRole(id, name) {
+	$.showConfirm('确定删除角色：”' + name + '“？',  function() {
+		window.location.href = '/index.php/Access/delRole/id/' + id;
+	});
+}
+</script>
+
+<div class="container">
+	<div class="row">
+		{:show_breadcrumb('编辑角色')}
+	</div>
+
+	<div class="row">
+		<table class="table">
+			<thead>
+			<tr>
+				<th>索引</th>
+				<th>角色名称</th>
+				<th>角色状态</th>
+				<th>备注</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			
+			<if condition="$count gt 0">
+			<tbody>
+			<foreach name="role" item="vo">
+			<tr>
+				<td>{$vo.id}</td>
+				<td><a href="/index.php/Access/editRole/id/{$vo.id}">{$vo.name}</a></td>
+				<td><eq name="vo.status" value="0"><span class="red">锁定</span><else />正常</eq></td>
+				<td>{$vo.remark}</td>
+				<td>
+					<div class="btn-group">
+					<if condition="hasAccess('Access', 'auth')">
+					<a href="/index.php/Access/auth/id/{$vo.id}" class="btn">授权</a>
+					</if>
+					
+					<if condition="hasAccess('Access', 'roleuser')">
+					<a href="/index.php/Access/roleUser/id/{$vo.id}" class="btn">角色用户</a>
+					</if>
+					
+					<if condition="hasAccess('Access', 'editrole')">
+					<a href="/index.php/Access/editRole/id/{$vo.id}" class="btn">编辑</a>
+					</if>
+					
+					<if condition="hasAccess('Access', 'delrole')">
+					<a href="javascript:delRole({$vo.id}, '{$vo.name}');" class="btn">删除</a>
+					</if>
+					</div>
+				</td>
+			</tr>
+			</foreach>	
+			</tbody>
+			<else />
+			<tr>
+				<td colspan="5">
+					<div class="alert text-center">暂无角色</div>
+				</td>
+			</tr>
+			</if>
+		</table>
+	</div>
+</div>
+
+<include file="Public:footer" />

@@ -1,0 +1,88 @@
+<include file="Public:header" />
+
+<script>
+// 切换角色
+function switchRole(obj) {
+	var selected = $(obj).val(),
+		url = '/index.php/Access/auth/id/' + selected;
+	window.location.href = url;
+}
+
+// 模块选择
+function setModule(app, module) {
+	var cbx = $('.js-module-' + module),
+		len = cbx.length,
+		checkedCbx = $('.js-module-' + module + ':checked'),
+		checkedLen = checkedCbx.length,
+		status = (checkedLen == len) ? false : true;
+
+	cbx.each(function() {
+		$(this).prop('checked', status);
+	});
+}
+
+function syncCbx(app, module) {
+	var count = $('.js-module-' + module).length,
+		checkedLen = $('.js-module-' + module + ':checked').length;
+	$('#cbx_' + app + '_' + module).prop('checked', checkedLen == count);
+}
+</script>
+		
+		
+<div class="container">
+	<div class="row">
+		{:show_breadcrumb('授权')}
+
+		<form id="frm" name="frm" method="post" action="/index.php/Access/auth" autocomplete="off" class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label" for="role_id">角色名称：</label>
+				<div class="controls">
+					<select id="role_id" name="role_id" class="fancy" onchange="switchRole(this);">
+						<foreach name="role" item="vo">
+						<option value="{$vo.id}" <eq name="vo.id" value="$id">selected="selected"</eq>>{$vo.name}</option>
+						</foreach>
+					</select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="role_id">权限列表：</label>
+				<div class="controls">
+					<div>
+					<foreach name="node_List" item="n1">
+							<h5>{$n1.title} ( {$n1.name} )</h5>
+							<foreach name="n1.node_2" item="n2">
+							<ul class="span4">
+								<li>
+								<label class="checkbox">
+									<input id="cbx_{$n1.name}_{$n2.name}" type="checkbox" onclick="setModule('{$n1.name}', '{$n2.name}');" /> <h6 class="inline">{$n2.title} ( {$n2.name} ) </h6>
+								</label>
+								<ul>
+								<foreach name="n2.node_3" item="n3" key="i">
+									<li>
+										<label class="checkbox">
+											<input type="checkbox" id="cbx_{$i}" name="node_id[]" value="{$n3.id}" class="js-app-{$n1.name} js-module-{$n2.name}" onclick="syncCbx('{$n1.name}', '{$n2.name}');" <eq name="n3.access" value="1">checked="checked"</eq> />
+											{$n3.title} ( {$n3.name} )
+										</label>
+									</li>
+								</foreach>
+								</ul>
+								<script type="text/javascript">
+								syncCbx('{$n1.name}', '{$n2.name}');
+								</script>
+								</li>
+							</ul>
+							</foreach>
+					</foreach>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary">授 权</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<include file="Public:footer" />

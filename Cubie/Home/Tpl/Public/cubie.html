@@ -1,0 +1,75 @@
+<!-- Cubie系统预览功能处理页 -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title></title>
+</head>
+
+<body>
+<script type="text/javascript">
+// using onbeforeunload event, url change on selecting stay on this page
+// http://stackoverflow.com/questions/16695886/using-onbeforeunload-event-url-change-on-selecting-stay-on-this-page
+
+var __G_CUBIE_DATA__ = {};
+__G_CUBIE_DATA__.originalUrl = location.href;
+
+// document.write需在onload触发后调用
+window.onload = function() {
+	try {
+		__G_CUBIE_DATA__ = sessionStorage.getItem('__cubie_preview_data__');
+
+		// 不存在表示是第一次打开预览窗口
+		if (!__G_CUBIE_DATA__) {
+			__G_CUBIE_DATA__ = JSON.parse(window.name || '{}');
+
+			// 恢复窗口名为预览窗口名,这样子的话要是业务没有处理window.name,下次重新预览时就可以在本窗口打开
+			window.name = __G_CUBIE_DATA__.name || '';
+		} else {
+			__G_CUBIE_DATA__ = JSON.parse(__G_CUBIE_DATA__);
+		}
+
+		// 由于window.name可能被业务使用,这里使用session将数据缓存
+		sessionStorage.setItem('__cubie_preview_data__', JSON.stringify(__G_CUBIE_DATA__));
+
+		if (!__G_CUBIE_DATA__.html) {
+			alert('数据异常，请重新发起预览~');
+			return;
+		}
+	} catch (e) {
+		alert('数据解析失败：' + e);
+		return;
+	}
+
+
+	// 替换为项目地址
+	// var error = '';
+	// if (__G_CUBIE_DATA__.url) {
+	// 	// 当试图改变当前地址为一个协议不同、（子）域名不同的地址时，会触发错误
+	// 	try {
+	// 		history.replaceState(null, null, __G_CUBIE_DATA__.url);
+	// 	} catch (e) {
+	// 		error = '模版所属域名(data-cubie-domain)与项目所属分类URL域名不一致，预览时可能存在异常~';
+	// 	}
+	// }
+
+
+	// 整个页面输出
+	var html = __G_CUBIE_DATA__.html
+		+ '<script type="text\/javascript">(function() {'
+
+		// error
+		// + (error ? 'var el = document.createElement("div");el.id="__cubie_error__";el.innerHTML=\'<div style="position: absolute; top: 0; left: 50%; z-index:99999; margin-left: -300px; width: 600px; height: 40px; line-height: 40px; background-color: #ebb70e; color: #fff; text-align:center; font-size:12px;">' + error + '</div>\';document.body.appendChild(el);setTimeout(function() {document.getElementById("__cubie_error__").style.display="none";}, 3000);' : '')
+
+		// 刷新前恢复window.name以及url,防止window.name被覆盖或者刷新后url不存在
+		// history.replaceState在onbeforeunload里设置不生效,所以用确认的方式
+		// http://jsfiddle.net/W3vUB/4/show/
+		// + (__G_CUBIE_DATA__.url ? 'window.onbeforeunload=function(e) {var timer=setTimeout(function() {window.location.replace(__G_CUBIE_DATA__.originalUrl);window.onbeforeunload=function() {};}, 500);}  return "重新发起预览?";}; window.onunload=function () {clearTimeout(timer);}' : '')
+
+		+ '})();<\/script>';
+	document.write(html);
+
+};
+</script>
+</body>
+</html>

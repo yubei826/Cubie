@@ -1,0 +1,68 @@
+<include file="Public:header" />
+		
+<div class="container">
+	<div class="row">
+		<if condition="$Think.const.ACTION_NAME eq 'addRole'">
+			{:show_breadcrumb()}
+		<else />
+			{:show_breadcrumb('编辑角色')}
+		</if>
+
+		<form id="frm" name="frm" method="post" action="/index.php/Access/{$Think.const.ACTION_NAME}" autocomplete="off" class="form-horizontal">
+			<input type="hidden" name="id" value="{$role.id}" />
+			<div class="control-group">
+				<label class="control-label" for="name">角色名称：</label>
+				<div class="controls">
+					<input id="name" name="name" type="text" placeholder="1-20个字符" value="{$role.name}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="status">角色状态：</label>
+				<div class="controls">
+					<select id="status" name="status">
+						<option value="1" <eq name="role.status" value="1">selected="selected"</eq>>启用</option>
+						<option value="0" <eq name="role.status" value="0">selected="selected"</eq>>禁用</option>
+					</select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="remark">角色描述：</label>
+				<div class="controls">
+					<textarea id="remark" name="remark" placeholder="1-255个字符" rows="6" class="span5">{$role.remark}</textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary"><if condition="$Think.const.ACTION_NAME eq 'addRole'">新 建<else />更 新</if></button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<include file="Public:js_validate" />
+<script>
+$(function() {
+	$('#frm').validate({
+		errorElement: 'span',
+		rules: {
+			name: {
+				required: true
+			},
+			remark: {
+				required: true
+			}
+		},
+		messages: {
+			name: {
+				required: '请输入角色名称'
+			},
+			remark: {
+				required: '请输入角色描述'
+			}
+		}
+	});
+});
+</script>
+
+<include file="Public:footer" />

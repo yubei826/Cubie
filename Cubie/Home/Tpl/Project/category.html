@@ -1,0 +1,67 @@
+<include file="Public:header" />
+
+<script>
+function delCategory(id, name) {
+	$.showConfirm('确定删除分类：' + name + '？', function() {
+		window.location.href = '/index.php/Project/delCategory/id/' + id;
+	});
+}
+</script>
+		
+<div class="container">
+	<div class="row">
+		<div class="span4">
+			{:show_breadcrumb()}
+		</div>
+		
+		<table class="table">
+			<thead>
+			<tr>
+				<th>索引</th>
+				<th>分类名称</th>
+				<th>分类描述</th>
+				<th>分类URL</th>
+				<th>编辑审批人</th>
+				<th>发布接口</th>
+				<th>发布审批人</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			
+			<if condition="$count gt 0">
+			<tbody>
+			<foreach name="category" item="vo">
+			<tr>
+				<td>{$vo.id}</td>
+				<td>{$vo.title}</td>
+				<td>{$vo.intro}</td>
+				<td>{$vo.url}</td>
+				<td>{$vo.auditor}</td>
+				<td>{$vo.pub_api|default="--"}</td>
+				<td>{$vo.pub_auditor|default="--"}</td>
+				<td>
+					<div class="btn-group">
+					<if condition="hasAccess('Project', 'editcategory')">
+					<a href="/index.php/Project/editCategory/id/{$vo.id}" class="btn">修改</a>
+					</if>
+					
+					<if condition="hasAccess('Project', 'delcategory')">
+					<a href="javascript:delCategory({$vo.id}, '{$vo.title}（{$vo.intro}）')" class="btn">删除</a>
+					</if>
+					</div>
+				</td>
+			</tr>
+			</foreach>
+			</tbody>
+			<else />
+			<tr>
+				<td colspan="8">
+					<div class="alert text-center">暂无项目分类</div>
+				</td>
+			</tr>
+			</if>
+		</table>
+	</div>
+</div>
+
+<include file="Public:footer" />

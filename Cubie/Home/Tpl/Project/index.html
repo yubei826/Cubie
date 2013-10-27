@@ -1,0 +1,97 @@
+<include file="Public:header" />
+
+<script>
+// 申请编辑
+function applyAudit(id) {
+	$.applyAudit(id, '申请编辑', function(form, msg) {
+		form.submit();
+	});
+}
+
+// 删除项目
+function delProject(id, title) {
+	$.showConfirm('确定删除项目：' + title + '？', function() {
+		window.location.href = '/index.php/Project/del/id/' + id;
+	});
+}
+
+$(function() {
+	$('.js-project').popover({
+		html: true,
+		placement: 'bottom',
+		trigger: 'hover',
+		delay: 300
+	});
+});
+</script> 
+		
+<div class="container">
+	<div class="row">
+		<div class="span4">
+			{:show_breadcrumb()}
+		</div>
+		<div class="span8 text-right">
+			<form id="frm" name="frm" method="get" action="/index.php/Project/" autocomplete="off" class="form-search">
+				<select id="category_id" name="category_id">
+					<option value="">所有分类</option>
+					<foreach name="category" item="vo">
+						<option  value="{$vo.id}" <eq name="category_id" value="$vo.id">selected="selected"</eq>>{$vo.intro}({$vo.title})</option>
+					</foreach>
+				</select>
+				<input id="kw" name="kw" type="text" class="input-medium search-query" placeholder="项目名称" value="{$kw}" />
+				<button type="submit" class="btn">查 询</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="row">
+		<if condition="$count gt 0">
+		<ul class="thumbnails">
+			<foreach name="project" item="vo">
+			<li class="span3">
+				<div class="thumbnail">
+					<if condition="hasAccess('Project', 'layout') AND $vo['_edit_able'] == true">
+						<a href="/index.php/Project/layout/id/{$vo.id}" title="编辑" target="_blank"><img src="{$vo.thumbnail}" alt="{$vo.title}" class="js-project" data-content="项目路径：{$vo._url}" style="height:156px;" /></a>
+					<else />
+						<img src="{$vo.thumbnail}" alt="{$vo.title}" class="js-project" data-content="项目路径：{$vo._url}" style="height:156px;" />
+					</if>
+					<div class="caption">
+						<h5><a href="/index.php/Project/check/id/{$vo.id}" title="查看项目信息">{$vo.title}</a></h5>
+						<p>
+							{$vo._category_info.intro}({$vo._category_info.title})
+
+							<!-- 当前操作人  -->
+							<if condition="!empty($vo['_current_editor'])">
+								/ {$vo._current_editor}编辑中
+							<elseif condition="!empty($vo['_current_applicant'])" />
+								/ {$vo._current_applicant}申请审批中
+							</if>
+						</p>
+						<p>
+							<if condition="hasAccess('Project', 'applyaudit') AND $vo['_apply_audit_able'] == true">
+								<a href="#" class="btn btn-small btn-success" onclick="applyAudit({$vo.id});return false">申请编辑</a>
+							</if>
+
+							<if condition="hasAccess('Project', 'layout') AND $vo['_edit_able'] == true">
+								<a href="/index.php/Project/layout/id/{$vo.id}" class="btn btn-small btn-primary" target="_blank">编辑</a>
+							</if>
+
+							<a href="{$vo._url}/" target="_blank" class="btn btn-small">查看</a>
+
+							<if condition="hasAccess('Project', 'del')">
+							<button class="btn btn-small btn-danger" type="button" onclick="delProject({$vo.id}, '{$vo.title}')">删除</button>
+							</if>
+						</p>
+					</div>
+				</div>
+			</li>
+			</foreach>
+		</ul>
+		<div class="page">{$page}</div>
+		<else />
+			<div class="alert text-center">暂无项目</div>
+		</if>
+	</div>
+</div>
+
+<include file="Public:footer" />

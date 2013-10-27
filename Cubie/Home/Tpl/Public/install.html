@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Cubie 安装</title>
+<link rel="stylesheet" type="text/css" href="/Public/Home/Css/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/Public/Home/Css/bootstrap/css/bootstrap-responsive.min.css" />
+<script type="text/javascript" src="/Public/Home/Js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="/Public/Home/Css/bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="container">
+
+		<h1>正在安装Cubie系统...</h1>
+		<hr />
+
+		<div class="alert">
+			<strong>Warning!</strong> 请先导入安装包下的MYSQL文件~
+		</div>
+
+		<div class="row">
+			<form method="post" action="/index.php/Public/install" autocomplete="off" class="form-horizontal">
+				<div class="control-group">
+					<label for="DB_HOST" class="control-label">服务器地址：</label>
+					<div class="controls">
+						<input id="DB_HOST" name="DB_HOST" type="text" placeholder="服务器地址" value="localhost" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="DB_PORT"class="control-label">端口：</label>
+					<div class="controls">
+						<input id="DB_PORT" name="DB_PORT" type="text" placeholder="端口" value="3306" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="DB_NAME"class="control-label">数据库名称：</label>
+					<div class="controls">
+						<input id="DB_NAME" name="DB_NAME" type="text" placeholder="据库名称" value="cubie" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="DB_PREFIX"class="control-label">表前缀：</label>
+					<div class="controls">
+						<input id="DB_PREFIX" name="DB_PREFIX" type="text" placeholder="表前缀" value="cubie_" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="DB_USER"class="control-label">用户名：</label>
+					<div class="controls">
+						<input id="DB_USER" name="DB_USER" type="text" placeholder="用户名" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="DB_PWD"class="control-label">密码：</label>
+					<div class="controls">
+						<input id="DB_PWD" name="DB_PWD" type="text" placeholder="密码" />
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<button type="submit" class="btn btn-primary">安 装</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
