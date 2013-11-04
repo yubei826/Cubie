@@ -1,6 +1,6 @@
 /**
 * 布局样式
-* @author: Zawa
+* @author: Zawaliang
 *
 * modal为1050，modal遮罩为1040; 顶部导航为1030;
 * z-index约定最大为1000
@@ -521,7 +521,7 @@ body#cubie_body [class*=" ui-"] {
 
   /* 组件 */
 
-  /* 组件内iframe处理,防止不可点击拖动 */
+  /* 组件内iframe,flash等处理,防止不可点击拖动 */
 
   /* 编辑状态 */
 
@@ -604,7 +604,7 @@ body#cubie_body [class*=" ui-"] {
   height: 100%;
   word-wrap: break-word;
 }
-.cubie-layout-body .cubie-module .cubie-module-iframefix {
+.cubie-layout-body .cubie-module .cubie-module-maskfix {
   position: absolute;
   z-index: 2;
   width: 100%;
