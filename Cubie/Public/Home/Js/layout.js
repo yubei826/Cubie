@@ -3525,9 +3525,14 @@ $(function() {
 				var target = $(e.target),
 					p;
 
-				// 只处理组件内的iframe
-				if (target.is('iframe') && (p = target.parent('.cubie-module-editarea')).length> 0) {
-					$('<div class="cubie-module-iframefix cubie-redundant-dom-inner"></div>').insertAfter(p)
+				// 只处理组件内的iframe,flash
+				if ($.inArray(nodeName, ['param', 'embed']) != -1) {
+					target = target.parent('object');
+					nodeName = target[0].nodeName.toLowerCase();
+				}
+
+				if ($.inArray(nodeName, ['iframe', 'object']) != -1 && (p = target.parent('.cubie-module-editarea')).length> 0) {
+					$('<div class="cubie-module-maskfix cubie-redundant-dom-inner"></div>').insertAfter(p)
 						.on('mouseout', function(e) {
 							$(this).remove();
 						});
