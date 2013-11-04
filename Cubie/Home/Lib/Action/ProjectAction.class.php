@@ -513,7 +513,8 @@ class ProjectAction extends PublicAction {
 				$f['release_url']  = $release_path . $v['savename']; // 最终发布时的相对当前项目的路径, res/xxx.png
 
 				// 图片则返回宽高
-				if (getimagesize($path)) {
+				// getimagesize() 函数将测定任何 GIF，JPG，PNG，SWF，SWC，PSD，TIFF，BMP，IFF，JP2，JPX，JB2，JPC，XBM或 WBMP 图像文件的大小并返回图像的尺寸以及文件类型和一个可以用于普通 HTML 文件中 IMG 标记中的 height/width 文本字符串
+				if (strtolower($v['extension']) != 'swf' && getimagesize($path)) {
 					$img = new ThinkImage(THINKIMAGE_GD, $path);
 					$f['width'] = $img->width();
 					$f['height'] = $img->height();
