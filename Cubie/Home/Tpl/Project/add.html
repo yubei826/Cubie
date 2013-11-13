@@ -171,7 +171,7 @@ $(function() {
 			var rc = parseInt(json.retcode, 10);
 			if (rc == 0) {
 				$('#thumbnail').val(json.file.path); // 存储根路径即可
-				initThumb(json.file.url);
+				initThumb(json.file.path);
 			} else {
 				$.showTips(json.retmsg);
 			}
