@@ -2754,7 +2754,12 @@ $(function() {
 					// /issue/release/1/res/52293d884abae.gif -> res/52293d884abae.gif
 					editArea.find('img[src*="' + res + '"]').attr('src', 'res/' + res);
 
-					// 2) TODO flash等
+					// 2) flash
+					var flashObject = editArea.filter(function() {
+						return (this.classid || '').toLowerCase() == 'clsid:d27cdb6e-ae6d-11cf-96b8-444553540000'
+					});
+					flashObject.find('param[name="movie"]').attr('value', 'res/' + res);
+					flashObject.find('embed').attr('src', 'res/' + res);
 				});	
 			}
 			
