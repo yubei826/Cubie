@@ -48,6 +48,7 @@ $(function() {
 				// 不要在此设置layout_width与layout_height,因为首次使用时需要取模版宽高
 				'slices_height': 200,
 				'bg_quality': 80,
+				"bg_top": 0,
 				'bg_align': 'center',
 				'bg_repeat': 'no-repeat'
 			},
@@ -61,6 +62,7 @@ $(function() {
 			},
 			// 全局额外设置
 			Global: {
+				html: '', // 全局HTML
 				css: '', // 全局CSS
 				js: '' // 全局Js
 			}
@@ -584,6 +586,7 @@ $(function() {
 		initGlobalHtml();
 
 		// 恢复背景
+		initForm(_layoutPanel, _projectJSON.Layout);
 		updateLayoutBg();
 	}
 
@@ -829,7 +832,8 @@ $(function() {
 		$.validator.addMethod('checkInt', function(value, element, range) {
 			value = $.trim(value);
 			if (value) {
-				value = /-\d*/.test(value) ? value : parseInt(value, 10);
+				// value = /-\d*/.test(value) ? value : parseInt(value, 10) || 0;
+				value = parseInt(value, 10) || 0;
 				if ($.isNumeric(value) && $.type(range) == 'array') {
 					value = Math.max(value, range[0]);
 					if (range[1]) {
@@ -859,7 +863,10 @@ $(function() {
 					checkInt: [1]
 				},
 				bg_quality: {
-					checkInt: [0, 100]
+					checkInt: [1, 100]
+				},
+				bg_top: {
+					checkInt: true
 				}
 			},
 			submitHandler: function(form) {
@@ -871,6 +878,7 @@ $(function() {
 				data.layout_width = data.layout_width || '100%';
 				data.layout_height = data.layout_height || _projectJSON.Layout.layout_height;
 				data.bg_quality = data.bg_quality || '80';
+				data.bg_top = data.bg_top || '0';
 
 				if (isPercent(data.layout_width)) {
 					_layoutWrapper.width(data.layout_width)
@@ -1064,6 +1072,20 @@ $(function() {
 	}
 
 	/**
+	 * 更新全局CSS
+	 */
+	function updateGlobalCss(css) {
+		css = '.cubie-layout-wrapper {' + $.trim(css) + '}';
+		new(less.Parser)().parse(css, function (e, root) {
+			// 防止css格式错误、hack等造成的解析失败
+			if ($.isPlainObject(root)) {
+				css = root.toCSS();
+			}
+			$('#cubie_global_css').html(css);
+		});
+	}
+
+	/**
 	 * 初始化全局Html/CSS/JS
 	 */
 	function initGlobalHtml() {
@@ -1082,6 +1104,11 @@ $(function() {
 				// 	return false;
 				// }
 
+				// 将CSS插入到编辑区(暂不考虑插入HTML)
+				// 为了防止影响系统样式，这里使用LESS限定样式作用域为cubie_layout_wrapper
+				updateGlobalCss(data.css);
+
+
 				// 更新JSON
 				setProjectJSON('Global', {
 					html: $.trim(data.html),
@@ -1093,6 +1120,9 @@ $(function() {
 				return false;
 			}
 		});
+
+		// 恢复样式
+		updateGlobalCss(_projectJSON.Global.css);
 
 		// CodeMirror
 		_CodeMirror.html = initCodeMirror({
@@ -1172,6 +1202,7 @@ $(function() {
 			bgs = $('#layout_bg_list img'),
 			repeat = $('#bg_repeat').val(),
 			bg_align = $('#bg_align').val(),
+			bg_top = $('#bg_top').val(),
 			zIndex = _projectJSON.Output.bg_zindex,
 			initData = [],
 			images = [],
@@ -1204,10 +1235,10 @@ $(function() {
 				// 最终发布样式
 				var releaseCss = 'width: 100%; height: ' + initData[k].height + 'px; background:url(' + initData[k].release_url + ') ' + initData[k].repeat + ' top ' + initData[k].bg_align + ';';
 
-				tpl += '<div class="cubie-bg" style="' + css + '" data-release-style="' + releaseCss + '"></div>';
+				tpl += '<div class="cubie-bg-debug" style="' + css + '" data-release-style="' + releaseCss + '"></div>';
 			});
 
-			tpl = '<div id="cubie_layout_bg" style="position: absolute; z-index: ' + zIndex + '; left: 0; top: 0; width: 100%;">' + tpl + '</div>';
+			tpl = '<div id="cubie_layout_bg" style="position: absolute; z-index: ' + zIndex + '; left: 0; top: ' + bg_top + 'px; width: 100%;">' + tpl + '</div>';
 			iframeDoc.$('body').append(tpl);	
 		}
 
@@ -1427,10 +1458,10 @@ $(function() {
 
 
 		// 设置editarea的overflow为auto;防止内容过多溢出
-		module.find('.cubie-module-editarea')
-			.css({
-				'overflow': 'auto'
-			});
+		// module.find('.cubie-module-editarea')
+		// 	.css({
+		// 		'overflow': 'auto'
+		// 	});
 
 
 		// 初始化事件
@@ -1760,6 +1791,7 @@ $(function() {
 			module: module,
 			JSON: options.moduleJSON
 		});
+		
 		
 		// 初始化特性
 		var randomKey = '__M__' + moduleID;
@@ -2689,7 +2721,7 @@ $(function() {
 			mixBgCss.push('.' + bgClassName + ' {' + $.trim(css) + '}');
 			bgHtml += '<div class="' + bgClassName + '">\n';
 
-			var bgs = iframeDoc.$('.cubie-bg');
+			var bgs = iframeDoc.$('.cubie-bg-debug');
 			bgs.each(function(k, v) {
 				v = $(v);
 				var className = bgClassName + '-' + k;
@@ -2760,7 +2792,7 @@ $(function() {
 					});
 					flashObject.find('param[name="movie"]').attr('value', 'res/' + res);
 					flashObject.find('embed').attr('src', 'res/' + res);
-				});	
+				});
 			}
 			
 
@@ -2870,6 +2902,7 @@ $(function() {
 
 					// step2: 合并背景、全局组件、css、js到模板内
 					var cssContent = ''
+						+ (_projectJSON.Layout.bg_color ? 'body {background-color: #' + _projectJSON.Layout.bg_color + ';}\n' : '') // 背景色
 						+ (mixModuleSourceCss.length > 0 ? mixModuleSourceCss.join('\n') + '\n' : '') // 组件源样式最前
 						+ mixCss.join('\n') // 布局样式次之,这样子组件样式可重置组件源样式
 						+ (mixBgCss.length > 0 ? '\n' + mixBgCss.join('\n') : '') // 背景样式
@@ -2906,16 +2939,19 @@ $(function() {
 					}
 
 					var layoutHtml = '<div class="' + wrapperClassName + '">\n' + clone.html() + '\n</div>';
+					// 追加的全局HTML
+					layoutHtml += _projectJSON.Global.html ? '\n' + _projectJSON.Global.html : '';
 
-					var html = '<!-- Generated By Cubie | ' + data.serverTime + ' -->\n' 
+					var html = '' //<!-- Generated By Cubie | ' + data.serverTime + ' -->\n' 
 						+ matches[1] + matches[2] + matches[3] + '\n'
 						+ dom.html()  + '\n'
-						+ '<!-- Cubie Start -->' + '\n'
+						+ '<!-- Cubie Start -->\n'
 						+ css + '\n'
 						+ layoutHtml + '\n'
 						+ bgHtml + '\n'
 						+ js + '\n'
-						+ '<!-- Cubie End -->' + '\n'
+						+ '<!-- Cubie End -->\n'
+						+ '<!-- Generated By Cubie | ' + data.serverTime + ' -->\n'
 						+ matches[5];
 
 					callback && callback({
@@ -3528,6 +3564,7 @@ $(function() {
 			// 这里检查若是iframe,则添加div覆盖使之可以点击或拖拽
 			$(_layoutWrapper).on('mouseover', function(e) {
 				var target = $(e.target),
+					nodeName = e.target.nodeName.toLowerCase(),
 					p;
 
 				// 只处理组件内的iframe,flash
