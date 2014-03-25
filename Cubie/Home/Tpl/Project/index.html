@@ -1,5 +1,12 @@
 <include file="Public:header" />
 
+<style type="text/css">
+.caption h5 {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+</style>
 <script>
 // 申请编辑
 function applyAudit(id) {
@@ -56,7 +63,7 @@ $(function() {
 						<img src="{$vo.thumbnail}" alt="{$vo.title}" class="js-project" data-content="项目路径：{$vo._url}" style="height:156px;" />
 					</if>
 					<div class="caption">
-						<h5><a href="/index.php/Project/check/id/{$vo.id}" title="查看项目信息">{$vo.title}</a></h5>
+						<h5><a href="/index.php/Project/check/id/{$vo.id}" title="{$vo.title}">{$vo.title}</a></h5>
 						<p>
 							{$vo._category_info.intro}({$vo._category_info.title})
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * 构建管理
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 class BuildAction extends PublicAction {

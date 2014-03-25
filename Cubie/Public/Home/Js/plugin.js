@@ -1,6 +1,6 @@
 /**
  * 插件API
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 ;(function($) {

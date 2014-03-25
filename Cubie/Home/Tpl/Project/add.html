@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <include file="Public:header" />
 
 <include file="Public:js_validate" />
@@ -324,3 +325,331 @@ $(function() {
 </div>
 
 <include file="Public:footer" />
+=======
+<include file="Public:header" />
+
+<include file="Public:js_validate" />
+<include file="Public:js_uploadify" />
+<js href="/Public/Home/Js/jquery.form.js" />
+<style type="text/css">
+.cubie-date[readonly] {
+	cursor: default;
+}
+</style>
+<script>
+// 选择模板
+function selectTpl(id, name) {
+	$('#tpl_wrapper').addClass('hide');
+	$('#form_wrapper').removeClass('hide');
+	$('#tpl_id').val(id);
+	$('#tpl_name').html(name);
+}
+
+// 重新选择模板
+function reselectTpl() {
+	$('#form_wrapper').addClass('hide');
+	$('#tpl_wrapper').removeClass('hide');
+}
+
+// 同步项目路径
+function initCategoryUrl(id) {
+	var url = $('#category_' + id).attr('data-url');
+	$('#category_url').html(url);
+}
+// 移除缩略图
+function removeThumb() {
+	$('#thumbnail').val('');
+	$('#thumbnail_img').html('');
+}
+
+// 初始化缩略图
+function initThumb(img) {
+	$('#thumbnail_img').html('<a class="close" href="#" title="移除此缩略图" onclick="removeThumb();return false;">&times;</a><img src="' + img + '" class="img-polaroid" style="max-width:500px;" />');
+}
+
+$(function() {
+	// 初始化项目路径
+	initCategoryUrl($('#category_id').val());
+
+	// 日期校验
+	$.validator.addMethod('checkSDate', function(value, element) {
+		var sDate = $('#s_date').val(),
+			eDate = $('#e_date').val(),
+			sTime = $('#s_time').val();
+
+		return !(!sDate && (eDate || sTime));
+	}, '请选择开始日期');
+
+	$.validator.addMethod('checkEDate', function(value, element) {
+		var sDate = $('#s_date').val(),
+			eDate = $('#e_date').val()
+			eTime = $('#e_time').val();
+
+		return !(!eDate && (sDate || eTime));
+	}, '请选择结束日期');
+
+	$.validator.addMethod('checkDateRange', function(value, element) {
+		var sDate = $('#s_date').val().replace(/-/g, '') - 0,
+			eDate = $('#e_date').val().replace(/-/g, '') - 0;
+
+		return (eDate >= sDate);
+	}, '开始时间不能大于结束时间');
+
+	// 时间
+	$.validator.addMethod('checkTime', function(value, element) {
+		var time = value.split(':');
+		return (value == 0 || (time.length = 3 && /^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/.test(value)));
+	}, '时间格式有误');
+
+	// 表单校验
+	var validator = $('#frm').validate({
+		errorElement: 'span',
+		errorPlacement: function(error, element) {
+			var name = element.attr('name');
+			switch (name) {
+				case 'flag':
+				case 's_date':
+				case 'e_date':
+					error.insertAfter(element.parent());
+					break;
+				default:
+					error.insertAfter(element);
+					break;
+			}
+		},
+		rules: {
+			title: {
+				required: true
+			},
+			intro: {
+				required: true
+			},
+			flag: {
+				required: true
+			},
+			s_date: {
+				dateISO: true,
+				checkSDate: true
+			},
+			s_time: {
+				checkTime: true
+			},
+			e_date: {
+				dateISO: true,
+				checkEDate: true,
+				checkDateRange: true
+			},
+			e_time: {
+				checkTime: true
+			}
+		},
+		messages: {
+			title: {
+				required: '请输入项目名称'
+			},
+			intro: {
+				required: '请输入项目描述'
+			},
+			flag: {
+				required: '请输入项目路径'
+			}
+		},
+		submitHandler: function(form) {
+			$('#btn_next').html('处理中，请稍后...').attr('disabled', true);
+
+			// Ajax异步提交
+			$(form).ajaxSubmit({
+				dataType: 'json',
+				success: function(json, statusText, xhr, form) {
+					var rc = parseInt(json.retcode, 10);
+					if (rc == 0) {
+						window.location.replace('/index.php/Project/layout/id/' + json.projectID);
+					} else {
+						$.showTips(json.retmsg);
+						$('#btn_next').html('下一步：编辑布局').attr('disabled', false);
+					}
+				}
+			});
+		}
+	});
+
+	// 上传缩略图
+	$('#tpl_thumbnail').uploadify({
+		auto: true, // 自动上传
+		swf: '/Public/Home/Js/uploadify/uploadify.swf',
+		// buttonClass: 'btn btn-primary',
+		buttonText: '选择图片',
+		width: 100, // 按钮宽度
+		height: 25, // 按钮高度
+		multi: false, // 不支持多图片上传
+		fileObjName: 'thumbnail',
+		formData: {
+			action: 'upload_tpl_thumbnail'
+		},
+		uploader: '/index.php/Project/{$Think.const.ACTION_NAME}',
+		fileTypeDesc: '支持的格式',
+		fileTypeExts: '*.jpg;*.jpge;*.gif;*.png',
+		fileSizeLimit: '1MB',
+		onUploadStart: function() {
+			// 上传时锁定
+			$('#btn_next').attr('disabled', true);
+		},
+		onUploadSuccess: function(file, data, response) {
+			var json = JSON.parse(data);
+			var rc = parseInt(json.retcode, 10);
+			if (rc == 0) {
+				$('#thumbnail').val(json.file.path); // 存储根路径即可
+				initThumb(json.file.path);
+			} else {
+				$.showTips(json.retmsg);
+			}
+			// 上传完毕后方可下一步
+			$('#btn_next').attr('disabled', false);
+		}
+	});
+
+
+	// 开始结束时间
+	var dpConf = {
+		showAnim: 'drop',
+		prevText: '上个月',
+		nextText: '下个月',
+		monthNamesShort: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+		dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+		dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+		changeMonth: true,
+		changeYear: true,
+		yearRange: ':c+2',
+		dateFormat: 'yy-mm-dd',
+		minDate: 0,
+		onClose: function() {
+			// 失焦触发校验
+			$('#s_date').blur();
+			$('#e_date').blur();
+		}
+	};
+	var clearDate = function(e) {
+		e.preventDefault();
+		var t = $(e.currentTarget),
+			id = t.attr('id');
+
+		if (id == 'btn_clear_sdate') {
+			$('#s_date').val('');
+		} else {
+			$('#e_date').val('');
+		}
+	};
+	$('#s_date').datepicker(dpConf);
+	$('#e_date').datepicker(dpConf);
+	$('#btn_clear_sdate').click(clearDate);
+	$('#btn_clear_edate').click(clearDate);
+});
+</script>
+
+<div class="container">
+	<div class="row">
+		{:show_breadcrumb()}
+	</div>
+
+	<div id="tpl_wrapper" class="row">
+		<p><span class="badge badge-info">Step 1：选择模板</span></p>
+		<if condition="$count gt 0">
+		<ul class="thumbnails">
+			<foreach name="tpl" item="vo">
+			<li class="span3">
+				<a href="#" class="thumbnail" onclick="selectTpl({$vo.id}, '{$vo.title} ({$vo.charset})');return false;">
+					<img src="{$vo.thumbnail}" alt="{$vo.title}" />
+					<div class="caption">
+						<p><strong>{$vo.title}</strong> ({$vo.charset})</p>
+					</div>
+				</a>
+			</li>
+			</foreach>
+		</ul>
+		<else />
+			<div class="alert text-center">暂无项目模板，请添加后再操作</div>
+		</if>
+	</div>
+
+	<div id="form_wrapper" class="row-fluid hide">
+		<p><span class="badge badge-info">Step 2：填写项目信息</span></p>
+		<form id="frm" name="frm" method="post" action="/index.php/Project/add" autocomplete="off" class="form-horizontal">
+			<input type="hidden" name="tpl_id" id="tpl_id" value="{$project.tpl_id}" />
+			<div class="control-group">
+				<label class="control-label" for="tpl_name"><i class="icon-ok-circle" title="必填"></i> 项目模板：</label>
+				<div class="controls">
+					<span id="tpl_name">{$project._tpl_title}</span>
+					<button class="btn btn-link" type="button" onclick="reselectTpl();">重新选择</button>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="title"><i class="icon-ok-circle" title="必填"></i> 项目名称：</label>
+				<div class="controls">
+					<input id="title" name="title" type="text" placeholder="1-20个字符" class="span6" value="{$project.title}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="intro"><i class="icon-ok-circle" title="必填"></i> 项目描述：</label>
+				<div class="controls">
+					<textarea id="intro" name="intro" placeholder="1-255个字符" rows="4" class="span6">{$project.intro}</textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="category_id"><i class="icon-ok-circle" title="必填"></i> 项目分类：</label>
+				<div class="controls">
+					<select id="category_id" name="category_id" onchange="initCategoryUrl(this.value);">
+						<foreach name="category" item="vo">
+							<option id="category_{$vo.id}" data-url="{$vo.url}" value="{$vo.id}" <eq name="project.category_id" value="$vo.id">selected="selected"</eq>>{$vo.intro}({$vo.title})</option>
+						</foreach>
+					</select>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="flag"><i class="icon-ok-circle" title="必填"></i> 项目路径：</label>
+				<div class="controls">
+					<div class="input-prepend span12">
+						<span id="category_url" class="add-on"></span>
+						<input id="flag" name="flag" type="text" placeholder="1-20个字符，不能以'vcms_'开头" class="span3" value="{$project.flag}" />
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="s_date">开始时间：</label>
+				<div class="controls">
+					<div class="input-append">
+						<input id="s_date" name="s_date" type="text" placeholder="日期 YYYY-MM-DD" class="span10 cubie-date" readonly value="{$project.s_date}" />
+						<span id="btn_clear_sdate" class="add-on"><button class="close" title="移除">&times;</button></span>
+					</div>
+					<input id="s_time" name="s_time" type="text" placeholder="时间 hh:mm:ss，可不填" class="span3" value="{$project.s_time}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="e_date">结束时间：</label>
+				<div class="controls">
+					<div class="input-append">
+						<input id="e_date" name="e_date" type="text" placeholder="日期 YYYY-MM-DD" class="span10 cubie-date" readonly value="{$project.e_date}" />
+						<span id="btn_clear_edate" class="add-on"><button class="close" title="移除">&times;</button></span>
+					</div>
+					<input id="e_time" name="e_time" type="text" placeholder="时间 hh:mm:ss，可不填" class="span3" value="{$project.e_time}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="tpl_thumbnail">缩略图：</label>
+				<div class="controls">
+					<div id="tpl_thumbnail"></div>
+					<span class="help-block">请根据项目分类手动裁剪好尺寸再上传，缩略图最终被命名为index.xxx（xxx为原图片后缀）</span>
+					<div id="thumbnail_img" style="display:inline-block"></div>
+					<input type="hidden" name="thumbnail" id="thumbnail" value="{$project._thumbnail}" />
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button id="btn_next" type="submit" class="btn btn-primary">下一步：编辑布局</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<include file="Public:footer" />
+>>>>>>> 9b5d2cdf2f30b82c20462680b3eb078b23cdfe26

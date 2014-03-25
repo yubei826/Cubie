@@ -6,6 +6,9 @@
 <!-- 项目样式放到最前,这样可尽量减少对布局样式的影响 -->
 {$project_tpl.css_file}
 
+<!-- 全局CSS承载容器 -->
+<style type="text/css" id="cubie_global_css"></style>
+
 <css href="/Public/Home/Css/layout/css/reset.css" />
 <css href="/Public/Home/Css/layout/css/common.css" />
 <css href="/Public/Home/Css/layout/css/grid.css" />
@@ -23,6 +26,7 @@
 <include file="Public:js_contextMenu" />
 <include file="Public:js_codemirror" />
 <js href="/Public/Home/Js/md5.js" />
+<js href="/Public/Home/Js/less-1.5.0.min.js" />
 
 <script type="text/javascript">
 var __tpl__ = {
@@ -31,6 +35,7 @@ var __tpl__ = {
 };
 
 var __project__ = {
+	editor: '{$APP.User}', // 当前编辑人员
 	id: parseInt('{$project.id}', 10),
 	draft: parseInt('{$project.draft}', 10) || 0, // 是否存在草稿
 	draftFileTime: '{$project.draft_file_time}', // 草稿保存时间
@@ -69,18 +74,19 @@ var __category__ = {
 		<div class="cubie-menu-main">
 			<ul id="cubie_menu_nav" class="cubie-menu-nav">
 				<li><a href="#" data-event="toggleProjectPanel">项目属性</a></li>
-				<li>
+				<li><a href="#" data-event="toggleLayoutPanel">布局属性</a></li>
+				<li><a href="#" data-event="preview">预览 (Ctrl+P)</a></li>
+<!-- 				<li>
 					<a href="#" class="js-dropdown-toggle">设置 <b class="cubie-caret"></b></a>
 					<ul class="cubie-dropdown-menu">
-						<li><a href="#" data-event="toggleLayoutPanel">布局属性</a></li>
 						<li><a href="#" data-event="toggleOutputPanel">预览/输出设置</a></li>
 					</ul>
-				</li>
+				</li> -->
 				<li>
 					<a href="#" class="js-dropdown-toggle">编辑 <b class="cubie-caret"></b></a>
 					<ul class="cubie-dropdown-menu">
+						<li><a href="#" data-event="toggleOutputPanel">预览/输出设置</a></li>
 						<li><a href="#" data-event="saveDraft">保存草稿 (Ctrl+S)</a></li>
-						<li><a href="#" data-event="preview">预览 (Ctrl+P)</a></li>
 						<li class="cubie-divider"></li>
 						<li id="delDraft_li"><a href="#" data-event="delDraft">删除草稿</a></li>
 						<li id="zip_li"><a href="#" data-event="zip">导出Zip包</a></li>
@@ -312,6 +318,12 @@ var __category__ = {
 					<input id="bg_quality" name="bg_quality" type="text" placeholder="0-100" class="input-mini" value="80" autocomplete="off" />
 					<span class="add-on">%</span>
 				</div>
+				<div class="input-prepend input-append cubie-field">
+					<span class="add-on">上边距</span>
+					<input id="bg_top" name="bg_top" type="text" value="0" class="input-mini" autocomplete="off" />
+					<span class="add-on">PX</span>
+				</div>
+				<hr />
 				<select id="bg_align" name="bg_align" class="span2 cubie-field">
 					<option value="left">居左</option>
 					<option value="center" selected>居中</option>

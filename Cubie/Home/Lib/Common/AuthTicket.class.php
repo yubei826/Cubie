@@ -1,7 +1,7 @@
 <?php
 /**
  * 登录票据验证
- * @author: Zawa
+ * @author: Zawaliang
  */
 class AuthTicket {
 

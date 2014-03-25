@@ -1,7 +1,7 @@
 <?php
 /**
  * 权限管理
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 class AccessAction extends PublicAction {

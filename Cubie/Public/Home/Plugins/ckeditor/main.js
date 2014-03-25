@@ -1,6 +1,6 @@
 /**
  * CKEditor编辑器 inline模式
- * @author: Zawa
+ * @author: Zawaliang
  * @version: v1.0.0
  */
 
@@ -50,7 +50,7 @@ var CKEDITOR_BASEPATH = '/Public/Home/Js/ckeditor/';
 	    			_editor = CKEDITOR.inline(M.editArea[0]);
 	    		} catch(e) {
 	    			// destroy方式会触发Uncaught TypeError: Cannot call method 'getType' of null
-	    			//  CKEditor的bug
+	    			// CKEditor的bug
 	    		}
 		}
 	}

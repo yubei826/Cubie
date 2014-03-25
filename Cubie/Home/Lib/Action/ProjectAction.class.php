@@ -1,7 +1,7 @@
 <?php
 /**
  * 项目管理
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 class ProjectAction extends PublicAction {
@@ -637,7 +637,7 @@ class ProjectAction extends PublicAction {
 			$content = file_get_contents($file);
 			if ($content !== false) {
 				$content = explode('|', trim($content));
-				$file_lock_time = $content[2]; // Cubie|Zawa|1354845412|2012-12-25 12:02:05
+				$file_lock_time = $content[2]; // Cubie|zawaliang|1354845412|2012-12-25 12:02:05
 				$now = time();
 				$remaintime = $now - $file_lock_time - 5 * 60;
 				if ($remaintime < 0) { // 文件产生时间超过5分钟则认为是死锁,无效,可发布

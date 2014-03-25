@@ -1,25 +1,47 @@
 <?php
 /**
  * 模版解析
- * @author: Zawa
+ * @author: Zawaliang
  */
 class TemplateParser {
+
+	private $domain = null;
 
 	/**
 	 * 构造函数
 	 */
 	public function __construct() {
-		
+		// 检查服务器策略是否支持DNS
+		// checkdnsrr函数一般不支持, 但一般支持gethostbyname, 优先使用gethostbyname,否则使用do_get
+		$dns = true;
+		if (function_exists(gethostbyname) && gethostbyname('www.baidu.com') == 'www.baidu.com') {
+			$dns = false;
+		} else if ($this->do_get('https://www.baidu.com/') === false) {
+			$dns = false;
+		}
+
+		if (!$dns) {
+			// 加载域名配置
+			$this->domain = require CONF_PATH . 'domain.php';
+		}
 	}
 	
 
 	/**
 	 * 获取远程文件内容
+	 * @param {String} $ip_domain 不支持DNS时提供
 	 * @return 获取失败时返回false
 	 */
-	private function do_get($url) {
+	private function do_get($url, $ip_domain) {
 		$ch = curl_init();
 		$timeout = 6; // 秒
+
+		// 根据ip获取资源时需要设置header
+		// http://artur.ejsmont.org/blog/content/loading-url-with-curl-from-specified-ip-address
+		if (!empty($ip_domain)) {
+			$headers = array('Host: ' . $ip_domain);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		}
 
 		// SSL
 		// http://blog.csdn.net/linvo/article/details/8816079
@@ -103,6 +125,30 @@ class TemplateParser {
 	}
 
 	/**
+	 * 转换域名到ip
+	 * @param {String} $domain eg: http://action.tenpay.com
+	 * @return {String} http://10.128.5.170
+	 * @ return 不存在域名配置时返回false, 支持DNS时也返回false, 只有在服务器策略不通且存在域名配置时才不返回false
+	 */
+	private function domain_to_ip($domain) {
+		// 策略不支持DNS时才处理
+		if (is_array($this->domain)) {
+			$d = $this->format_domain($domain);
+			$d = explode('://', $d);
+
+			// action.tenpay.com -> 10.128.5.170, 配置不存在时不处理
+			$d[1] = $this->domain[$d[1]];
+			if (empty($d[1])) {
+				return false;
+			}
+
+			return implode('://', $d);
+		}
+
+		return false;
+	}
+
+	/**
 	 * 替换SSI的include指令
 	 * @param {String} $content
 	 * @param {String} $charset 内容编码
@@ -117,9 +163,12 @@ class TemplateParser {
 
 		// replace_include_ssi_callback不知道咋传多个参数,这里用私有变量吧
 		$domain_info =  $this->parse_domain($domain);
+		$ip_domain = $this->domain_to_ip($domain);
 		$this->__ssi_config__ = array(
 			'charset' => (strtoupper($charset) != 'UTF-8') ? 'GBK' : 'UTF-8',
-			'domain' => $domain,
+			'dns' => !!$ip_domain,
+			'pure_domain' => $domain_info['domain'],
+			'domain' => $ip_domain ? $ip_domain : $domain,
 		);
 
 		// 匹配SSI指令
@@ -140,7 +189,8 @@ class TemplateParser {
 
 	// include指令替换回调
 	private function replace_include_ssi_callback($matches) {
-		$content = $this->do_get($this->__ssi_config__['domain'] . $matches[1]);
+		$content = $this->do_get($this->__ssi_config__['domain'] . $matches[1],
+				$this->__ssi_config__['dns'] ? $this->__ssi_config__['pure_domain'] : null);
 
 		// 获取失败时返回空
 		if (!$content) {

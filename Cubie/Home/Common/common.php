@@ -1,7 +1,7 @@
 <?php 
 /**
  * 常用函数集
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 /** 
@@ -12,22 +12,6 @@
 function hasAccess($module, $name) {
 	// hasAccess 已对超级管理员做了判断
 	return AuthTicket::hasAccess($module, $name);
-}
-
-/** 
- * 是否超级管理员
- */ 
-function isSuper() {
-	return AuthTicket::super();
-}
-
-
-// 去除空格, $data为一维数组
-function trim_all($data) {
-	foreach ($data as $k => $v) {
-		$data[$k] = trim($v);
-	}
-	return $data;
 }
 
 /**
@@ -176,9 +160,4 @@ function formatUrl($url) {
 	$url = (substr($url, strlen($url)-1, 1) != '/') ? $url . '/' : $url; // 末尾添加斜杠
 
 	return $url;
-}
-
-// 加盐MD5
-function salt_md5($str) {
-	return md5('ds#&s(!d4' . $str);
 }

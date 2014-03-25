@@ -1,6 +1,6 @@
 /**
  * 布局编辑公用脚本
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 ;(function() {

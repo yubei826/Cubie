@@ -1,6 +1,6 @@
 /* *
  * 针对Cubie优化的样式
- * Zawa
+ * Zawaliang
  */
 .colorpicker {
 	width: 356px;
@@ -74,7 +74,7 @@
 	background: #f00;
 }
 .colorpicker input {
-	width: auto; /* Zawa: 防止bootstrap影响; */
+	width: auto; /* Zawaliang: 防止bootstrap影响; */
 	background-color: transparent;
 	border: 1px solid transparent;
 	position: absolute;

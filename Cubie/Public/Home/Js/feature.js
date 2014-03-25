@@ -1,6 +1,6 @@
 /**
  * 系统特性接口
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 $(function() {
@@ -45,6 +45,13 @@ $(function() {
 	 * 值调节
 	 */
 	Feature.prototype._adjustHandler = function(e) {
+		var type = $(this).attr('type').toLowerCase();
+
+		// 对于一些type=“number”等浏览器控件自身有范围控制(up/down)的输入框，不需要处理
+		if ($.inArray(type, ['number']) != -1) {
+			return;
+		}
+
 		var obj = $(this),
 			val = $.trim(obj.val()),
 			keyCode = e.which;

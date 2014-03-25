@@ -2,7 +2,7 @@
 
 /**
  * Home项目Action基类
- * @author: Zawa
+ * @author: Zawaliang
  */
 class PublicAction extends Action {
 

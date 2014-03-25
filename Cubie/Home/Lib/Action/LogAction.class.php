@@ -1,7 +1,7 @@
 <?php
 /**
  * 日志管理
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 class LogAction extends PublicAction {

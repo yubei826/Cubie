@@ -1,6 +1,6 @@
 /**
  * Cubie公用JS
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 // ref: https://github.com/jquery/jquery-migrate/blob/master/src/core.js

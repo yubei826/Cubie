@@ -1,6 +1,6 @@
 /**
  * 组件API
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 ;(function($) {
@@ -53,7 +53,12 @@
 
 		// 初始化组件数据缓存(新建时为空,恢复组件时就有JSON数据)
 		var json = $.trim($('#' + this.moduleID + '_json').val());
-		json && $.extend(true, this._JSON, $.parseJSON(json));
+		try {
+			json && $.extend(true, this._JSON, $.parseJSON(json));
+		} catch(e) {
+			alert('组件（ID：' + this.moduleID + '）JSON数据解析出错，请检查：' + e.message);
+		}
+		
 
 		// 扩展默认配置,一般用于组件克隆
 		if ($.type(options.JSON) == 'object') {
@@ -607,6 +612,41 @@
 	 */
 	Module.prototype.getPluginInstance = function(name) {
 		return this._pluginInstance[name];
+	};
+
+	/**
+	 * ColorPicker调色板
+	 * @param {String|Object} selector
+	 * @param {Function} callback(hex) 颜色选择或填入后
+	 */
+	Module.prototype.ColorPicker = function(selector, callback) {
+		$(selector).on('input', function(e) {
+			var obj = $(this),
+				hex = $.trim(obj.val()).replace(/#/g, '');
+
+			if ($.isFunction(callback)) {
+				callback(hex ? '#' + hex : '');
+			} 
+		}).ColorPicker({
+			onSubmit: function(hsb, hex, rgb, el) {
+				$(el).val(hex);
+				$(el).ColorPickerHide();
+				$(el).trigger('input');
+			},
+			onBeforeShow: function () {
+				$(this).ColorPickerSetColor(this.value);
+			},
+			onChange: function (hsb, hex, rgb) {
+				// onchange接口没有传el参数,晕
+				// 多个ColorPicker时, 这里直接调用objColor会存在混乱问题,晕
+				
+				var obj = $(this.data('colorpicker').el);
+				obj.val(hex).trigger('input');
+			}
+		})
+		.bind('keyup', function(){
+			$(this).ColorPickerSetColor(this.value);
+		});
 	};
 
 

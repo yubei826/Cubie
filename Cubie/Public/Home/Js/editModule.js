@@ -1,6 +1,6 @@
 /**
  * 组件编辑
- * @author: Zawa
+ * @author: Zawaliang
  */
 
 $(function() {
